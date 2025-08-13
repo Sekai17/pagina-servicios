@@ -1,0 +1,228 @@
+/* ====== Variables y tipografía ====== */
+:root{
+  --bg: #f8f9fb;
+  --text: #2e2e33;
+  --muted: #666b73;
+  --brand-1: #4ca9ff;
+  --brand-2: #6c63ff;
+  --accent:  #ff9800;
+  --card: #ffffff;
+  --ring: rgba(108, 99, 255, .35);
+  --shadow-sm: 0 6px 16px rgba(0,0,0,.08);
+  --shadow-md: 0 10px 28px rgba(0,0,0,.12);
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+
+body{
+  font-family: "Poppins", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Arial, sans-serif;
+  margin: 0;
+  color: var(--text);
+  background: var(--bg);
+  line-height: 1.55;
+}
+
+/* Contenedores */
+.wrap{ width: min(1100px, 92vw); margin: 0 auto; }
+
+/* ====== Topbar ====== */
+.topbar{
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(255,255,255,.82);
+  border-bottom: 1px solid rgba(0,0,0,.06);
+  backdrop-filter: blur(8px);
+}
+.topbar .wrap{ display: flex; align-items: center; justify-content: space-between; padding: 10px 0; }
+.brand{ font-weight: 700; color: var(--brand-2); text-decoration: none; }
+.nav a{
+  text-decoration: none; color: var(--text); font-weight: 600;
+  padding: 8px 12px; border-radius: 10px;
+  transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+}
+.nav a:hover{
+  background: #fff; box-shadow: var(--shadow-sm);
+  transform: translateY(-1px);
+}
+
+/* ====== Hero (degradado sutil) ====== */
+.hero{
+  color: #fff; text-align: center; padding: clamp(48px, 8vw, 96px) 0;
+  background:
+    radial-gradient(1200px 400px at 10% 0%, rgba(255,255,255,.12), transparent 60%),
+    linear-gradient(135deg, #5bb0ff 0%, #7a74ff 55%, #6c63ff 100%);
+}
+.hero h1{ margin: 0 0 10px; font-size: clamp(28px, 3.6vw, 44px); font-weight: 700; }
+.hero p{ margin: 0 0 20px; font-size: clamp(16px, 2.2vw, 18px); opacity: .95; }
+
+/* ====== Botones ====== */
+.btn{
+  display: inline-block; background: var(--accent); color: #fff;
+  padding: 12px 22px; border-radius: 12px; text-decoration: none; font-weight: 600;
+  transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
+  box-shadow: var(--shadow-sm); will-change: transform;
+}
+.btn:hover{ transform: translateY(-2px); box-shadow: var(--shadow-md); filter: brightness(1.03); }
+.btn:focus-visible{ outline: 0; box-shadow: 0 0 0 4px var(--ring); }
+.btn-ghost{ background: #fff; color: var(--brand-2); border: 2px solid rgba(108,99,255,.18); }
+.btn-ghost:hover{ color: #4b44ff; }
+
+/* ====== Servicios ====== */
+.services{ padding: clamp(36px, 6vw, 64px) 0; }
+.grid-3{ display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+@media (max-width: 900px){ .grid-3{ grid-template-columns: 1fr 1fr; } }
+@media (max-width: 640px){ .grid-3{ grid-template-columns: 1fr; } }
+
+.service{
+  background: var(--card); border-radius: 18px; padding: 22px; text-align: center;
+  box-shadow: var(--shadow-sm); border: 1px solid rgba(0,0,0,.04);
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+.service:hover{ transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: rgba(108,99,255,.22); }
+.service h2{ margin: 8px 0 8px; font-size: 1.3rem; }
+.service p{ color: var(--muted); margin: 0 0 14px; }
+.icon{ width: 56px; height: 56px; margin: 4px auto 6px; color: var(--brand-2); }
+
+/* ====== Planes ====== */
+.plans{ padding: clamp(36px, 6vw, 64px) 0; }
+.plan{
+  background: var(--card); border-radius: 18px; padding: 22px; text-align: left;
+  box-shadow: var(--shadow-sm); border: 1px solid rgba(0,0,0,.04);
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+.plan:hover{ transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: rgba(108,99,255,.22); }
+.plan h3{ margin: 0 0 6px; font-size: 1.2rem; }
+.plan .price{ margin: 6px 0 14px; color: var(--brand-2); font-weight: 700; }
+.plan ul{ list-style: none; padding: 0; margin: 0 0 16px; }
+.plan ul li{ display: flex; gap: 8px; margin: 8px 0; }
+.plan ul li::before{ content: "✓"; font-weight: 700; color: var(--brand-2); }
+.plans .note{ margin-top: 14px; color: var(--muted); }
+
+/* ====== Contacto ====== */
+.contact{ padding: clamp(42px, 7vw, 70px) 0; }
+.contact h2{ margin: 0 0 8px; }
+.contact .grid{
+  display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+}
+@media (max-width: 700px){ .contact .grid{ grid-template-columns: 1fr; } }
+
+.field{ display: flex; flex-direction: column; }
+.field label{ font-weight: 600; margin-bottom: 6px; }
+.field input, .field select, .field textarea{
+  border: 1.2px solid rgba(0,0,0,.12);
+  border-radius: 12px; padding: 12px 14px; font: inherit; background: #fff;
+  transition: border-color .18s ease, box-shadow .18s ease;
+}
+.field input:focus, .field select:focus, .field textarea:focus{
+  outline: 0; border-color: rgba(108,99,255,.45); box-shadow: 0 0 0 4px var(--ring);
+}
+.field .hint{ color: var(--muted); font-size: .9rem; margin-top: 6px; }
+
+/* Checkbox: centrado vertical y separación justa */
+.checkbox label{
+  display: inline-flex;
+  align-items: center;       /* centrado vertical */
+  gap: 8px;                  /* menos separación */
+  line-height: 1.3;
+  font-weight: 500;
+}
+.checkbox input{
+  margin: 0;                 /* elimina separación por defecto */
+  flex-shrink: 0;            /* evita deformaciones */
+}
+.span-2{ grid-column: span 2; }
+.form-note{ color: var(--muted); margin-top: 10px; }
+
+/* ====== Extras ====== */
+.extras{ padding: clamp(42px, 7vw, 70px) 0; text-align: center; background: #ffffff; }
+.extras h2{ margin: 0 0 10px; font-size: 1.8rem; }
+.coming-soon{
+  display: inline-block; padding: 12px 18px; border: 2px dashed var(--brand-2);
+  border-radius: 12px; background: #f3f2ff; font-weight: 700; letter-spacing: .3px;
+}
+
+/* ====== Donaciones ====== */
+.donations{ padding: clamp(42px, 7vw, 70px) 0; text-align: center; }
+.donate-actions{ display: flex; gap: 12px; justify-content: center; margin-top: 12px; }
+
+/* ====== Footer ====== */
+footer{ padding: 28px 0; text-align: center; color: #fff;
+  background: linear-gradient(180deg, #6c63ff 0%, #5a53e6 100%); }
+footer p{ margin: 0; }
+
+/* Accesibilidad / Motion-safe */
+@media (prefers-reduced-motion: reduce){
+  .btn, .service, .plan, .nav a{ transition: none; }
+}
+
+/* Medios que podrían desbordar */
+img, svg{ max-width: 100%; height: auto; }
+
+/* ====== Fix responsive para móviles (<=600px) ====== */
+@media (max-width: 600px){
+
+  /* Evita desbordes por anchos interiores */
+  .wrap{
+    width: 100%;            /* evita scroll por 100vw en móviles */
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  /* La topbar y su navegación pueden saltar de línea si falta espacio */
+  .topbar .wrap{ flex-wrap: wrap; gap: 6px; }
+  .nav{ display: flex; flex-wrap: wrap; }
+
+  /* El formulario ocupa todo el ancho disponible */
+  #contacto .wrap,
+  #contact-form{
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* Controles 100% de ancho, sin desbordes */
+  #contact-form input,
+  #contact-form select,
+  #contact-form textarea,
+  #contact-form button{
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* Reduce espacios para pantallas chicas */
+  .contact .grid{ gap: 12px; }
+  .field input,
+  .field select,
+  .field textarea{
+    padding: 11px 12px;
+    min-width: 0;           /* Previene overflow en iOS/Safari */
+  }
+
+  /* Checkbox: texto más chico en mobile y centrado vertical */
+  .checkbox label{
+    font-size: .9rem;       /* texto de política más pequeño */
+    align-items: center;    /* asegura centrado en iOS/Android */
+  }
+
+  /* Asegura que los elementos "span-2" no rompan la grilla en 1 columna */
+  .span-2{ grid-column: 1 / -1; }
+
+  /* Botón del formulario full-width y con más margen inferior */
+  #contact-form .btn{
+    display: block;
+    margin-top: 8px;
+    margin-bottom: 24px;    /* más aire para que no quede pegado abajo */
+  }
+}
+
+/* Harden general (útil en todos los anchos) */
+#contact-form input,
+#contact-form select,
+#contact-form textarea,
+#contact-form button{
+  max-width: 100%;
+}
+#contact-form textarea{
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
