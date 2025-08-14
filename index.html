@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Servicios Profesionales · Acordeón — Planes · Extras · Contrato</title>
+  <meta name="description" content="Página compacta con acordeón: Planes, Extras y Contrato. Precios orientativos en ARS, extras sumables y contrato autogenerado. Responsive, accesible y con tema claro/oscuro." />
+
+  <style>
+    /* =====================================================
+       VARIABLES DE TEMA + BASES DE UI
+       ===================================================== */
+    :root{
+      --bg:#f7f8fb; --text:#232429; --muted:#6a7079; --card:#ffffff;
+      --brand-1:#4ca9ff; --brand-2:#6c63ff; --accent:#ff9800; --ring:rgba(108,99,255,.35);
+      --shadow-sm:0 6px 16px rgba(0,0,0,.08); --shadow-md:0 10px 28px rgba(0,0,0,.12);
+      --header-h:72px;          /* alto aprox. del header sticky */
+    }
+    [data-theme="dark"]{
+      /* Paleta para modo oscuro */
+      --bg:#0f1115; --text:#f2f4f7; --muted:#a0a6b0; --card:#151922;
+      --shadow-sm:0 6px 16px rgba(0,0,0,.5); --shadow-md:0 10px 28px rgba(0,0,0,.65);
+    }
+
+    /* Reset & estructura */
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Arial,sans-serif;line-height:1.55}
+    .wrap{width:min(1100px,92vw);margin-inline:auto}
+    a.skip{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
+    a.skip:focus{left:10px;top:10px;width:auto;height:auto;background:#000;color:#fff;padding:8px 12px;border-radius:8px;z-index:999}
+
+    /* =====================================================
+       TOPBAR + TOGGLE DE TEMA
+       ===================================================== */
+    .topbar{position:sticky;top:0;z-index:50;backdrop-filter:blur(8px);background:color-mix(in srgb,var(--card) 90%, transparent);border-bottom:1px solid rgba(0,0,0,.08)}
+    .topbar .wrap{display:flex;align-items:center;justify-content:space-between;padding:12px 0;gap:12px}
+    .brand{font-weight:900;color:var(--brand-2);text-decoration:none;letter-spacing:.2px}
+    .nav{display:flex;gap:10px;flex-wrap:wrap}
+    .nav a{color:var(--text);text-decoration:none;font-weight:800;padding:8px 12px;border-radius:10px;transition:transform .18s,box-shadow .18s,background .18s}
+    .nav a:hover{background:var(--card);box-shadow:var(--shadow-sm);transform:translateY(-1px)}
+    .theme-toggle{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:12px;border:1px solid rgba(0,0,0,.08);background:var(--card);cursor:pointer}
+
+    /* =====================================================
+       HERO / BIENVENIDA
+       ===================================================== */
+    .hero{color:#fff;text-align:center;padding: clamp(48px,8vw,96px) 0;background:
+      radial-gradient(1200px 400px at 10% 0%, rgba(255,255,255,.12), transparent 60%),
+      linear-gradient(135deg,#5bb0ff 0%,#7a74ff 55%,#6c63ff 100%)}
+    .hero h1{margin:0 0 10px;font-weight:900;font-size:clamp(28px,3.6vw,44px)}
+    .hero p{margin:0 0 22px;font-size:clamp(16px,2.1vw,18px);opacity:.95}
+    .btn{display:inline-block;background:var(--accent);color:#fff;padding:12px 22px;border-radius:12px;text-decoration:none;font-weight:900;box-shadow:var(--shadow-sm);transition:transform .18s,box-shadow .18s,filter .18s}
+    .btn:hover{transform:translateY(-2px);box-shadow:var(--shadow-md);filter:brightness(1.03)}
+    .btn-ghost{background:var(--card);color:var(--brand-2);border:2px solid color-mix(in srgb,var(--brand-2) 18%, transparent)}
+
+    /* =====================================================
+       SUBNAV STICKY (chips que abren secciones)
+       ===================================================== */
+    .subnav{position:sticky;top:var(--header-h);z-index:40;backdrop-filter:blur(8px);background:color-mix(in srgb,var(--card) 85%, transparent);border-bottom:1px solid rgba(0,0,0,.06)}
+    .subnav .wrap{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;padding:10px 0}
+    .chip{appearance:none;background:var(--card);border:1px solid rgba(0,0,0,.08);padding:8px 12px;border-radius:999px;font-weight:800;cursor:pointer;box-shadow:var(--shadow-sm)}
+    .chip[aria-current="true"]{color:#fff;background:linear-gradient(135deg,var(--brand-1),var(--brand-2));border-color:transparent}
+
+    /* =====================================================
+       ACORDEÓN (estructura + animación)
+       ===================================================== */
+    .acordeon{padding: clamp(24px,4.8vw,40px) 0}
+    .ac-item{background:var(--card);border:1px solid rgba(0,0,0,.08);border-radius:16px;box-shadow:var(--shadow-sm);margin:0 0 14px;overflow:hidden;scroll-margin-top:calc(var(--header-h) + 12px)}
+    .ac-title{ /* cabecera clickable */
+      width:100%;text-align:left;background:transparent;border:0;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:14px 16px;cursor:pointer;font-weight:900;font-size:1.05rem
+    }
+    .ac-title .chev{transition:transform .25s ease}
+    .ac-item.activo .ac-title .chev{transform:rotate(180deg)}
+    .ac-body{ /* contenedor colapsable */
+      max-height:0; overflow:hidden; transition:max-height .30s ease; border-top:1px solid rgba(0,0,0,.06);
+      padding:0 16px; /* el padding vertical se setea via JS al abrir */
+    }
+
+    /* =====================================================
+       PLANES: tabs + tiers
+       ===================================================== */
+    .tabs{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
+    .tab{appearance:none;border:1px solid rgba(0,0,0,.08);background:var(--card);padding:10px 14px;border-radius:12px;font-weight:900;cursor:pointer;box-shadow:var(--shadow-sm)}
+    .tab[aria-selected="true"]{color:#fff;background:linear-gradient(135deg,var(--brand-1),var(--brand-2));border-color:transparent}
+    .tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:16px}
+    @media (max-width:900px){.tiers{grid-template-columns:1fr 1fr}}
+    @media (max-width:640px){.tiers{grid-template-columns:1fr}}
+    .tier{background:var(--card);border:1px solid rgba(0,0,0,.06);border-radius:14px;padding:18px;box-shadow:var(--shadow-sm);display:flex;flex-direction:column;transition:transform .18s,box-shadow .18s,border-color .18s}
+    .tier:hover{transform:translateY(-3px);box-shadow:var(--shadow-md);border-color:rgba(108,99,255,.22)}
+    .tier .head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:6px}
+    .tier .price{margin:6px 0 8px;color:var(--brand-2);font-weight:900}
+    .tier ul{list-style:none;padding:0;margin:0 0 12px}
+    .tier ul li{display:flex;gap:8px;margin:6px 0}
+    .tier ul li::before{content:"✓";color:var(--brand-2);font-weight:900}
+    .price-note{margin:6px 0 12px;color:var(--muted)}
+
+    /* =====================================================
+       EXTRAS
+       ===================================================== */
+    .extras-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:12px 0 16px}
+    @media (max-width:900px){.extras-grid{grid-template-columns:1fr 1fr}}
+    @media (max-width:640px){.extras-grid{grid-template-columns:1fr}}
+    .extra{background:var(--card);border:1px solid rgba(0,0,0,.06);border-radius:14px;padding:14px;box-shadow:var(--shadow-sm);display:flex;gap:12px;align-items:flex-start;justify-content:space-between}
+    .chip{font-size:.85rem}
+
+    /* =====================================================
+       CONTRATO + MODAL
+       ===================================================== */
+    .contract-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}
+    @media (max-width:800px){.contract-grid{grid-template-columns:1fr}}
+    .field{display:flex;flex-direction:column}
+    label{font-weight:800;margin-bottom:6px}
+    input,select,textarea{border:1.2px solid rgba(0,0,0,.12);border-radius:12px;padding:12px 14px;font:inherit;background:var(--card);color:var(--text);transition:border-color .18s,box-shadow .18s}
+    input:focus,select:focus,textarea:focus{outline:0;border-color:color-mix(in srgb,var(--brand-2) 45%, transparent);box-shadow:0 0 0 4px var(--ring)}
+    .extras-checks{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    @media (max-width:600px){.extras-checks{grid-template-columns:1fr}}
+    .row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+    .hint{color:var(--muted);font-size:.9rem}
+
+    /* Modal base */
+    .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.45);padding:20px}
+    .modal[open]{display:flex}
+    .modal-card{background:var(--card);color:var(--text);width:min(900px,96vw);max-height:90vh;overflow:auto;border-radius:16px;box-shadow:var(--shadow-md)}
+    .modal-head{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid rgba(0,0,0,.08)}
+    .modal-body{padding:16px}
+    .modal-actions{display:flex;gap:10px;padding:12px 14px;border-top:1px solid rgba(0,0,0,.08)}
+
+    /* Footer */
+    footer{padding:28px 0;text-align:center;color:#fff;background:linear-gradient(180deg,#6c63ff 0%,#5a53e6 100%)}
+  </style>
+</head>
+<body>
+  <a href="#contenido" class="skip">Saltar al contenido</a>
+
+  <!-- ===================================================
+       TOPBAR CON NAVEGACIÓN (los links abren acordeón)
+       =================================================== -->
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="#">Maestro Servicios</a>
+      <nav class="nav" aria-label="Principal">
+        <a href="#planes" data-open="planes">Planes</a>
+        <a href="#extras" data-open="extras">Extras</a>
+        <a href="#contrato" data-open="contrato">Contrato</a>
+      </nav>
+      <button id="themeToggle" class="theme-toggle" type="button" aria-pressed="false" aria-label="Cambiar tema"><span id="themeIcon" aria-hidden="true">🌙</span> Tema</button>
+    </div>
+  </header>
+
+  <!-- ===================================================
+       HERO / MENSAJE DE BIENVENIDA
+       =================================================== -->
+  <section class="hero">
+    <div class="wrap">
+      <h1>Soluciones compactas y claras</h1>
+      <p>Todo en un acordeón ordenado: Planes por niveles, Extras sumables y Contrato autogenerado.</p>
+      <a class="btn" href="#planes" data-open="planes">Ver Planes</a>
+      <a class="btn btn-ghost" href="#contrato" data-open="contrato" style="margin-left:8px">Generar contrato</a>
+    </div>
+  </section>
+
+  <!-- ===================================================
+       SUBNAV STICKY (chips) — abre y navega a secciones
+       =================================================== -->
+  <div class="subnav" aria-hidden="false">
+    <div class="wrap">
+      <button class="chip" data-open="planes" aria-current="true">Planes</button>
+      <button class="chip" data-open="extras">Extras</button>
+      <button class="chip" data-open="contrato">Contrato</button>
+    </div>
+  </div>
+
+  <main id="contenido" class="wrap">
+    <!-- =================================================
+         ACORDEÓN: 1 sección abierta a la vez
+         ================================================= -->
+    <div class="acordeon" id="acordeon" role="tablist" aria-label="Secciones principales">
+
+      <!-- BLOQUE: PLANES (abierto por defecto) -->
+      <section class="ac-item activo" id="ac-planes">
+        <button class="ac-title" type="button" role="tab" aria-expanded="true" aria-controls="planes">
+          <span>Planes por niveles</span>
+          <span class="chev">▾</span>
+        </button>
+        <div class="ac-body" id="planes" role="region" aria-labelledby="ac-planes-title">
+          <!-- Tabs de categoría -->
+          <div class="tabs" role="tablist" aria-label="Categorías de servicio">
+            <button class="tab" role="tab" aria-selected="true" data-cat="marketing">Marketing</button>
+            <button class="tab" role="tab" aria-selected="false" data-cat="secretaria">Secretaría</button>
+            <button class="tab" role="tab" aria-selected="false" data-cat="contabilidad">Contabilidad</button>
+          </div>
+          <!-- Tiers renderizados por JS -->
+          <div id="tiers" class="tiers" aria-live="polite"></div>
+          <p class="price-note">Precios de referencia (ARS). La cotización final se confirma por mensaje.</p>
+        </div>
+      </section>
+
+      <!-- BLOQUE: EXTRAS -->
+      <section class="ac-item" id="ac-extras">
+        <button class="ac-title" type="button" role="tab" aria-expanded="false" aria-controls="extras">
+          <span>Servicios extras</span>
+          <span class="chev">▾</span>
+        </button>
+        <div class="ac-body" id="extras" role="region">
+          <p class="hint">Podés sumarlos a cualquier plan. Se cotizan aparte como monto mensual o por proyecto.</p>
+          <div class="extras-grid" id="extrasGrid"></div>
+        </div>
+      </section>
+
+      <!-- BLOQUE: CONTRATO -->
+      <section class="ac-item" id="ac-contrato">
+        <button class="ac-title" type="button" role="tab" aria-expanded="false" aria-controls="contrato">
+          <span>Contrato de prestación de servicios</span>
+          <span class="chev">▾</span>
+        </button>
+        <div class="ac-body" id="contrato" role="region">
+          <p class="hint">Modelo orientativo. No sustituye asesoramiento legal.</p>
+          <form id="contractForm">
+            <div class="contract-grid">
+              <div class="field"><label for="c_nombre">Cliente *</label><input id="c_nombre" required placeholder="Ej.: Juan Pérez / Empresa SA" /></div>
+              <div class="field"><label for="c_cuit">CUIT / DNI</label><input id="c_cuit" placeholder="Ej.: 20-12345678-9" /></div>
+              <div class="field"><label for="c_email">Correo *</label><input id="c_email" type="email" required placeholder="correo@ejemplo.com" /></div>
+              <div class="field"><label for="c_domicilio">Domicilio</label><input id="c_domicilio" placeholder="Calle, número, ciudad, provincia" /></div>
+              <div class="field"><label for="c_servicio">Servicio *</label>
+                <select id="c_servicio" required>
+                  <option value="" disabled selected>Elegí una categoría</option>
+                  <option value="marketing">Marketing</option>
+                  <option value="secretaria">Secretaría Administrativa</option>
+                  <option value="contabilidad">Contabilidad</option>
+                </select>
+              </div>
+              <div class="field"><label for="c_nivel">Nivel *</label>
+                <select id="c_nivel" required>
+                  <option value="" disabled selected>Elegí nivel</option>
+                  <option value="basico">Básico</option>
+                  <option value="intermedio">Intermedio</option>
+                  <option value="pro">Pro</option>
+                </select>
+              </div>
+              <div class="field"><label for="c_inicio">Fecha de inicio</label><input id="c_inicio" type="date" /></div>
+              <div class="field"><label for="c_plazo">Plazo (meses)</label><input id="c_plazo" type="number" min="1" step="1" placeholder="Ej.: 3" /></div>
+            </div>
+            <div class="row" style="margin:12px 0 6px"><strong>Extras opcionales</strong><span class="hint">(se suman al precio de referencia)</span></div>
+            <div class="extras-checks" id="extrasChecks"></div>
+            <div class="field" style="margin-top:12px"><label for="c_notas">Notas</label><textarea id="c_notas" rows="3" placeholder="Aclaraciones, alcances específicos, hitos, etc."></textarea></div>
+            <div class="row" style="margin-top:12px">
+              <button type="button" class="btn" id="btnContrato">Generar contrato</button>
+              <button type="reset" class="btn btn-ghost">Limpiar</button>
+              <span id="cotResumen" class="hint"></span>
+            </div>
+          </form>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- ===================================================
+       MODAL DEL CONTRATO (vista/descarga/impresión)
+       =================================================== -->
+  <div class="modal" id="modalContrato" role="dialog" aria-modal="true" aria-labelledby="mcTitle" aria-describedby="mcDesc">
+    <div class="modal-card">
+      <div class="modal-head"><strong id="mcTitle">Contrato de prestación de servicios</strong><button class="btn btn-ghost" id="mcClose" type="button">Cerrar ✕</button></div>
+      <div class="modal-body"><div id="mcDesc" class="contract-text"></div></div>
+      <div class="modal-actions">
+        <button class="btn btn-ghost" id="btnCopiar" type="button">Copiar</button>
+        <button class="btn btn-ghost" id="btnDescargar" type="button">Descargar .txt</button>
+        <button class="btn" id="btnImprimir" type="button">Imprimir / PDF</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="wrap">&copy; <span id="year">2025</span> · Maestro Servicios</div>
+  </footer>
+
+  <script>
+  (function(){
+    'use strict';
+
+    /* =====================================================
+       ⚠️ FIX CRÍTICO: obtener el contenedor del acordeón ANTES
+       de declarar funciones que lo usan para evitar la TDZ.
+       (Arregla: ReferenceError "Cannot access 'acc' before initialization")
+       ===================================================== */
+    const acc = document.getElementById('acordeon'); // ✅ ahora existe antes de usarlo en closeAll/adjustOpenHeight
+
+    /* Helper seguro para ajustes de altura del panel abierto */
+    function adjustOpenHeight(){
+      if(!acc) return; // fallback defensivo
+      const open = acc.querySelector('.ac-item.activo .ac-body');
+      if(!open) return;
+      open.style.maxHeight = 'none';              // permite medir sin tope
+      const h = open.scrollHeight;                // altura real del contenido
+      open.style.maxHeight = h + 'px';            // fija la altura animable
+    }
+
+    /* =====================================================
+       THEME: toggle claro/oscuro con persistencia
+       ===================================================== */
+    const THEME_KEY='site_theme_acc_v2';
+    const applyTheme=t=>{ document.documentElement.setAttribute('data-theme',t); localStorage.setItem(THEME_KEY,t); document.getElementById('themeToggle')?.setAttribute('aria-pressed', String(t==='dark')); document.getElementById('themeIcon').textContent = t==='dark' ? '☀️' : '🌙'; };
+    applyTheme(localStorage.getItem(THEME_KEY)||'light');
+    document.getElementById('themeToggle')?.addEventListener('click',()=>{ const cur=localStorage.getItem(THEME_KEY)||'light'; applyTheme(cur==='dark'?'light':'dark'); });
+
+    /* =====================================================
+       DATOS: bases, multiplicadores y features
+       ===================================================== */
+    const BASE = { marketing: 2000000, secretaria: 1500000, contabilidad: 1800000 }; // ARS base por categoría
+    const MULT = { basico: 1.0, intermedio: 1.6, pro: 2.4 };                         // multiplicadores por nivel
+    const FMT  = new Intl.NumberFormat('es-AR',{ style:'currency', currency:'ARS', maximumFractionDigits: 0 });
+
+    const FEATURES = {
+      marketing: {
+        basico: ["2-3 posts/sem", "Calendario simple", "Métricas mensuales"],
+        intermedio: ["4-6 posts/sem", "Plan de contenidos", "Métricas + recomendaciones", "1 campaña trimestral"],
+        pro: ["7-10 posts/sem", "Estrategia trimestral", "Reportes quincenales", "Campañas continuas"]
+      },
+      secretaria: {
+        basico: ["Agenda y coordinación", "Gestión básica de correos", "Documentación"],
+        intermedio: ["Atención a clientes", "Plantillas y protocolos", "Reportes quincenales"],
+        pro: ["Backoffice completo", "SLA interno", "Reportes semanales", "Optimización de procesos"]
+      },
+      contabilidad: {
+        basico: ["Registro ingresos/gastos", "Conciliación básica", "Reporte mensual"],
+        intermedio: ["Análisis de costos", "Optimización fiscal inicial", "Reporte + recomendaciones"],
+        pro: ["Proyección de flujo", "Tributación avanzada", "Acompañamiento mensual", "Dashboard básico"]
+      }
+    };
+
+    /* =====================================================
+       RENDER PLANES: tabs de categoría + tiers por nivel
+       ===================================================== */
+    const tiersEl = document.getElementById('tiers');
+    const LABELS = { basico:'Básico', intermedio:'Intermedio', pro:'Pro' };
+    const BADGES = { basico:'Para empezar', intermedio:'Crecimiento', pro:'Máximo desempeño' };
+    const ICONS  = { basico:'📄', intermedio:'📊', pro:'🚀' };
+
+    const price = (cat,lvl) => FMT.format(Math.round((BASE[cat]||0) * (MULT[lvl]||1))); // cálculo de referencia
+
+    // Tarjeta de un nivel con su lista de features
+    const tierCard = (cat,lvl) => `<article class="tier">
+      <div class="head"><div class="name">${ICONS[lvl]} ${LABELS[lvl]}</div><div class="badge">${BADGES[lvl]}</div></div>
+      <div class="price">${price(cat,lvl)} / mes</div>
+      <ul>${(FEATURES[cat]?.[lvl]||[]).map(f=>`<li>${f}</li>`).join('')}</ul>
+      <a class="btn cta" href="#contrato" data-open="contrato">Solicitar</a>
+    </article>`;
+
+    function renderCategory(cat){
+      // Pinta las 3 tarjetas (Básico/Intermedio/Pro) para la categoría elegida
+      if(!tiersEl) return;
+      tiersEl.innerHTML=['basico','intermedio','pro'].map(l=>tierCard(cat,l)).join('');
+      adjustOpenHeight(); // ✅ ya seguro: acc existe antes
+    }
+
+    // Binding de tabs (Marketing/Secretaría/Contabilidad)
+    const tabs = Array.from(document.querySelectorAll('.tab'));
+    tabs.forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        tabs.forEach(b=>b.setAttribute('aria-selected','false'));
+        btn.setAttribute('aria-selected','true');
+        renderCategory(btn.dataset.cat);
+      });
+    });
+    renderCategory('marketing'); // categoría por defecto
+
+    /* =====================================================
+       EXTRAS: cards visibles + checkboxes para contrato
+       ===================================================== */
+    const EXTRAS = {
+      programacion: { nombre:'Programación a medida', desc:'Landing/apps pequeñas, correcciones y mejoras puntuales.', precio: 3500000 },
+      cv: { nombre:'Creación de CV profesional', desc:'CV + carta de presentación + perfil LinkedIn.', precio: 300000 },
+      presentaciones: { nombre:'Diseño de presentaciones', desc:'Pitch decks / presentaciones comerciales.', precio: 450000 },
+      seo: { nombre:'Optimización SEO on‑page', desc:'Auditoría, metas, headings y microcopy.', precio: 600000 },
+      nocode: { nombre:'Automatizaciones (No‑Code)', desc:'Zaps/Make + integraciones simples.', precio: 900000 }
+    };
+    const extrasGrid = document.getElementById('extrasGrid');
+    const extrasChecks = document.getElementById('extrasChecks');
+
+    // Cards de extras (con botón "Agregar" que tilda el checkbox homónimo)
+    if (extrasGrid){ extrasGrid.innerHTML = Object.entries(EXTRAS).map(([k,v])=>`
+      <div class="extra">
+        <div>
+          <h4 style="margin:0 0 6px">${v.nombre}</h4>
+          <p class="hint" style="margin:0 0 8px">${v.desc}</p>
+          <span class="chip">${FMT.format(v.precio)} ${v.precio>1000000?'/ mes':'/ proyecto'}</span>
+        </div>
+        <button class="btn btn-ghost" type="button" data-x="${k}">Agregar</button>
+      </div>
+    `).join(''); }
+
+    // Checkboxes dentro del contrato
+    if (extrasChecks){ extrasChecks.innerHTML = Object.entries(EXTRAS).map(([k,v])=>`
+      <label class="row"><input id="x_${k}" type="checkbox" name="extras" value="${k}"> ${v.nombre} — <span class="hint">${FMT.format(v.precio)}</span></label>
+    `).join(''); }
+
+    extrasGrid?.addEventListener('click', e=>{
+      // Marca/desmarca el checkbox correspondiente al extra
+      const btn = e.target.closest('button[data-x]'); if(!btn) return;
+      const id = 'x_'+btn.dataset.x; const chk = document.getElementById(id);
+      if (chk){ chk.checked = !chk.checked; }
+      adjustOpenHeight(); // por si cambia la altura al agregar texto envolviendo
+    });
+
+    /* =====================================================
+       CONTRATO: cálculo de totales + modal con acciones
+       ===================================================== */
+    const form = document.getElementById('contractForm');
+    const resumen = document.getElementById('cotResumen');
+
+    function calcular(){
+      // Suma base*nivel + extras seleccionados y pinta un resumen
+      const cat = document.getElementById('c_servicio').value; const lvl = document.getElementById('c_nivel').value;
+      const base = BASE[cat]||0; const mult = MULT[lvl]||1; const mensual = Math.round(base*mult);
+      const xs = [...document.querySelectorAll('input[name="extras"]:checked')].map(el=>el.value);
+      const extrasTotal = xs.reduce((s,k)=>s+(EXTRAS[k]?.precio||0),0);
+      const total = mensual + extrasTotal;
+      resumen.textContent = cat && lvl ? `Referencia mensual: ${FMT.format(mensual)}  ·  Extras: ${FMT.format(extrasTotal)}  ·  Total: ${FMT.format(total)}` : '';
+      return { mensual, extrasTotal, total, xs };
+    }
+    ['change','input'].forEach(evt=>form.addEventListener(evt, ()=>{ calcular(); adjustOpenHeight(); }));
+
+    // Modal del contrato
+    const modal = document.getElementById('modalContrato');
+    const mcClose = document.getElementById('mcClose');
+    const mcDesc = document.getElementById('mcDesc');
+
+    document.getElementById('btnContrato')?.addEventListener('click',()=>{
+      // Validaciones mínimas
+      const nombre = document.getElementById('c_nombre').value?.trim();
+      const email = document.getElementById('c_email').value?.trim();
+      const cat = document.getElementById('c_servicio').value; const catLabel = {marketing:'Marketing',secretaria:'Secretaría Administrativa',contabilidad:'Contabilidad'}[cat]||'';
+      const lvl = document.getElementById('c_nivel').value; const lvlLabel = {basico:'Básico',intermedio:'Intermedio',pro:'Pro'}[lvl]||'';
+      if (!nombre || !email || !cat || !lvl){ alert('Completá Cliente, Correo, Servicio y Nivel.'); return; }
+
+      const cuit = document.getElementById('c_cuit').value?.trim();
+      const dom = document.getElementById('c_domicilio').value?.trim();
+      const inicio = document.getElementById('c_inicio').value; const plazo = document.getElementById('c_plazo').value;
+      const notas = document.getElementById('c_notas').value?.trim();
+      const { mensual, extrasTotal, total, xs } = calcular();
+      const extrasList = xs.map(k=>`• ${EXTRAS[k].nombre}${EXTRAS[k].precio?` — ${FMT.format(EXTRAS[k].precio)}`:''}`).join('<br>') || '— Sin extras';
+      const features = (FEATURES[cat]?.[lvl]||[]).map(f=>`• ${f}`).join('<br>');
+      const hoy = new Date(); const f = d=>d?new Date(d).toLocaleDateString('es-AR'):'—';
+
+      // HTML del contrato
+      const html = `
+        <h3>Contrato de Prestación de Servicios</h3>
+        <p><strong>Entre:</strong> <em>${nombre}</em> ${cuit?`(CUIT/DNI: ${cuit})`:''} ${dom?`— Domicilio: ${dom}`:''} — correo: ${email} (en adelante, el "Cliente").</p>
+        <p>y <strong>Maestro Servicios</strong>, en adelante, el "Proveedor"; en conjunto, las "Partes".</p>
+        <ol>
+          <li><strong>Objeto.</strong> Servicio de <strong>${catLabel} — Nivel ${lvlLabel}</strong>; alcance:<br>${features}</li>
+          <li><strong>Extras.</strong> (si corresponden):<br>${extrasList}</li>
+          <li><strong>Vigencia.</strong> Inicio: <strong>${f(inicio)}</strong>. Plazo estimado: <strong>${plazo||'—'} meses</strong>.</li>
+          <li><strong>Honorarios.</strong> Referencia mensual: <strong>${FMT.format(mensual)}</strong>; extras: <strong>${FMT.format(extrasTotal)}</strong>; total referencia: <strong>${FMT.format(total)}</strong>. La cotización final puede ajustarse por alcance.</li>
+          <li><strong>Confidencialidad.</strong> 24 meses posteriores a la finalización.</li>
+          <li><strong>Propiedad intelectual.</strong> Entregables cedidos al acreditarse el pago; el Proveedor conserva know‑how general.</li>
+          <li><strong>Datos personales.</strong> Tratamiento conforme normativa aplicable y solo para ejecutar este contrato.</li>
+          <li><strong>Responsabilidad.</strong> Sin daños indirectos; tope = montos pagados en los últimos 3 meses.</li>
+          <li><strong>Terminación.</strong> Preaviso de 15 días; se factura lo efectivamente prestado.</li>
+          <li><strong>Jurisdicción.</strong> Tribunales de CABA.</li>
+        </ol>
+        <p><strong>Notas del Cliente:</strong><br>${notas?notas.replace(/\n/g,'<br>'):'—'}</p>
+        <p>En la fecha <strong>${hoy.toLocaleDateString('es-AR')}</strong>.</p>
+        <p style="margin-top:28px">______________________________<br>${nombre}</p>
+        <p style="margin-top:16px">______________________________<br>Maestro Servicios</p>
+      `;
+      mcDesc.innerHTML = html; modal.setAttribute('open','');
+      adjustOpenHeight(); // por si el modal abre con contenido largo y cambia layout
+    });
+    mcClose?.addEventListener('click',()=>modal.removeAttribute('open'));
+    modal?.addEventListener('click',e=>{ if(e.target===modal) modal.removeAttribute('open'); });
+
+    // Acciones: copiar, descargar TXT, imprimir
+    document.getElementById('btnCopiar')?.addEventListener('click',()=>{
+      const tmp = document.createElement('div'); tmp.innerHTML = mcDesc.innerHTML; const text = tmp.textContent || tmp.innerText || '';
+      navigator.clipboard?.writeText(text).then(()=>alert('Contrato copiado al portapapeles.'));
+    });
+    document.getElementById('btnDescargar')?.addEventListener('click',()=>{
+      const tmp = document.createElement('div'); tmp.innerHTML = mcDesc.innerHTML; const text = tmp.textContent || tmp.innerText || '';
+      const blob = new Blob([text], {type:'text/plain;charset=utf-8'});
+      const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = 'Contrato_Maestro_Servicios.txt'; a.click(); URL.revokeObjectURL(url);
+    });
+    document.getElementById('btnImprimir')?.addEventListener('click',()=>{
+      const w = window.open('', 'printWin');
+      w.document.write(`<!doctype html><html><head><title>Contrato</title><meta charset="utf-8"/><style>body{font-family:system-ui,Segoe UI,Roboto,Arial,sans-serif;line-height:1.55;margin:24px} h3{margin:0 0 10px}</style></head><body>${mcDesc.innerHTML}</body></html>`);
+      w.document.close(); w.focus(); w.print();
+    });
+
+    /* =====================================================
+       ACORDEÓN: abrir/cerrar con animación suave
+       ===================================================== */
+    function closeAll(){
+      // Colapsa todos los bloques y limpia estado
+      if(!acc) return;
+      acc.querySelectorAll('.ac-item').forEach(it=>{
+        if(it.classList.contains('activo')){
+          const body = it.querySelector('.ac-body');
+          body.style.maxHeight = 0;
+          body.style.paddingTop = body.style.paddingBottom = '0px';
+          it.classList.remove('activo');
+          it.querySelector('.ac-title').setAttribute('aria-expanded','false');
+        }
+      });
+      document.querySelectorAll('.subnav .chip').forEach(ch=>ch.setAttribute('aria-current','false'));
+    }
+
+    function openSection(key){
+      // Abre una sección por clave ("planes" | "extras" | "contrato")
+      const id = key==='planes' ? 'ac-planes' : key==='extras' ? 'ac-extras' : 'ac-contrato';
+      const item = document.getElementById(id); if(!item) return;
+      const body = item.querySelector('.ac-body');
+      closeAll();
+      item.classList.add('activo');
+      item.querySelector('.ac-title').setAttribute('aria-expanded','true');
+      requestAnimationFrame(()=>{
+        body.style.paddingTop = body.style.paddingBottom = '12px';
+        body.style.maxHeight = body.scrollHeight + 'px';
+      });
+      const chip = document.querySelector(`.subnav [data-open="${key}"]`); chip?.setAttribute('aria-current','true');
+      const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      item.scrollIntoView({behavior: reduce? 'auto':'smooth', block:'start'});
+    }
+
+    window.addEventListener('resize', adjustOpenHeight);
+
+    // Toggle por click en los títulos del acordeón
+    acc?.querySelectorAll('.ac-item .ac-title').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        const item = btn.closest('.ac-item');
+        const key = item.id.replace('ac-','');
+        if(item.classList.contains('activo')){
+          // Cierra la sección activa
+          const body = item.querySelector('.ac-body');
+          body.style.maxHeight = 0; body.style.paddingTop = body.style.paddingBottom = '0px';
+          item.classList.remove('activo');
+          btn.setAttribute('aria-expanded','false');
+          document.querySelector(`.subnav [data-open="${key}"]`)?.setAttribute('aria-current','false');
+        }else{
+          openSection(key);
+        }
+      });
+    });
+
+    // Click desde chips del subnav o links con data-open (topbar/hero/cards)
+    document.addEventListener('click', e=>{
+      const trg = e.target.closest('[data-open]');
+      if(!trg) return; e.preventDefault();
+      openSection(trg.dataset.open);
+    });
+
+    // Inicial: abre Planes y fija año del footer
+    openSection('planes');
+    const y = document.getElementById('year'); if (y) y.textContent = String(new Date().getFullYear());
+
+    /* =====================================================
+       🧪 SELF-TESTS (no afectan UI) — útiles al debuggear
+       ===================================================== */
+    try{
+      console.assert(!!acc, '[TEST] #acordeon existe en el DOM');
+      // tras render inicial: deberían existir 3 tiers para marketing
+      console.assert(document.querySelectorAll('#tiers .tier').length === 3, '[TEST] Render de 3 niveles en Planes');
+      // prueba de cambio de sección
+      openSection('extras');
+      console.assert(document.getElementById('ac-extras').classList.contains('activo'), '[TEST] Extras quedó activo');
+      console.assert(!document.getElementById('ac-planes').classList.contains('activo'), '[TEST] Planes quedó colapsado');
+      // volver a Planes
+      openSection('planes');
+    }catch(err){ console.warn('Self-tests warning:', err); }
+
+  })();
+  </script>
+</body>
+</html>
