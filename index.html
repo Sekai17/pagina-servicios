@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Servicios Profesionales · Acordeón — Planes · Extras · Contrato</title>
-  <meta name="description" content="Página compacta con acordeón: Planes, Extras y Contrato. Precios orientativos en ARS, extras sumables y contrato autogenerado. Responsive, accesible y con tema claro/oscuro." />
+  <title>Servicios Profesionales · Sistema Maestro — Planes · Extras · Solicitudes · Contrato</title>
+  <meta name="description" content="Página compacta con acordeón: Planes, Extras, Solicitudes y Contrato. Precios integrados en ARS, formulario corto de solicitud y contrato autogenerado. Responsive, accesible y tema claro/oscuro." />
 
   <style>
     /* =====================================================
@@ -104,6 +104,14 @@
     .chip{font-size:.85rem}
 
     /* =====================================================
+       SOLICITUD DE SERVICIOS (form corto)
+       ===================================================== */
+    .request-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}
+    @media (max-width:800px){.request-grid{grid-template-columns:1fr}}
+    .req-list{margin:12px 0 20px;display:grid;gap:10px}
+    .req-card{background:var(--card);border:1px solid rgba(0,0,0,.06);border-radius:12px;padding:12px;box-shadow:var(--shadow-sm)}
+
+    /* =====================================================
        CONTRATO + MODAL
        ===================================================== */
     .contract-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}
@@ -141,6 +149,7 @@
       <nav class="nav" aria-label="Principal">
         <a href="#planes" data-open="planes">Planes</a>
         <a href="#extras" data-open="extras">Extras</a>
+        <a href="#solicitud" data-open="solicitud">Solicitud</a>
         <a href="#contrato" data-open="contrato">Contrato</a>
       </nav>
       <button id="themeToggle" class="theme-toggle" type="button" aria-pressed="false" aria-label="Cambiar tema"><span id="themeIcon" aria-hidden="true">🌙</span> Tema</button>
@@ -152,10 +161,10 @@
        =================================================== -->
   <section class="hero">
     <div class="wrap">
-      <h1>Soluciones compactas y claras</h1>
-      <p>Todo en un acordeón ordenado: Planes por niveles, Extras sumables y Contrato autogenerado.</p>
+      <h1>Sistema Maestro — Contratos y Solicitudes</h1>
+      <p>Elegí un plan o extra, pedilo con el formulario corto o cerrá un contrato con condiciones claras.</p>
       <a class="btn" href="#planes" data-open="planes">Ver Planes</a>
-      <a class="btn btn-ghost" href="#contrato" data-open="contrato" style="margin-left:8px">Generar contrato</a>
+      <a class="btn btn-ghost" href="#solicitud" data-open="solicitud" style="margin-left:8px">Solicitar un servicio</a>
     </div>
   </section>
 
@@ -166,6 +175,7 @@
     <div class="wrap">
       <button class="chip" data-open="planes" aria-current="true">Planes</button>
       <button class="chip" data-open="extras">Extras</button>
+      <button class="chip" data-open="solicitud">Solicitud</button>
       <button class="chip" data-open="contrato">Contrato</button>
     </div>
   </div>
@@ -202,8 +212,38 @@
           <span class="chev">▾</span>
         </button>
         <div class="ac-body" id="extras" role="region">
-          <p class="hint">Podés sumarlos a cualquier plan. Se cotizan aparte como monto mensual o por proyecto.</p>
+          <p class="hint">Sumables a cualquier plan. Monto único por proyecto salvo que se indique mensual.</p>
           <div class="extras-grid" id="extrasGrid"></div>
+        </div>
+      </section>
+
+      <!-- BLOQUE: SOLICITUD DE SERVICIOS (form corto) -->
+      <section class="ac-item" id="ac-solicitud">
+        <button class="ac-title" type="button" role="tab" aria-expanded="false" aria-controls="solicitud">
+          <span>Solicitud de servicios</span>
+          <span class="chev">▾</span>
+        </button>
+        <div class="ac-body" id="solicitud" role="region">
+          <p class="hint">Formulario breve para pedir un servicio. Se registra localmente y podés imprimir o copiar.</p>
+          <form id="requestForm" novalidate>
+            <div class="request-grid">
+              <div class="field"><label for="r_nombre">Nombre y apellido *</label><input id="r_nombre" required placeholder="Tu nombre" /></div>
+              <div class="field"><label for="r_email">Email *</label><input id="r_email" type="email" required placeholder="tucorreo@ejemplo.com" /></div>
+              <div class="field"><label for="r_tel">Teléfono / WhatsApp *</label><input id="r_tel" required placeholder="Ej.: +54 9 11 1234-5678" /></div>
+              <div class="field"><label for="r_servicio">Servicio solicitado *</label>
+                <input id="r_servicio" list="svcList" required placeholder="Elegí o escribí" />
+                <datalist id="svcList"></datalist>
+                <small class="hint" id="r_precio_hint"></small>
+              </div>
+              <div class="field"><label for="r_msg">Mensaje (opcional)</label><textarea id="r_msg" rows="3" placeholder="Contanos brevemente tu necesidad..."></textarea></div>
+            </div>
+            <div class="row" style="margin-top:10px">
+              <button type="submit" class="btn">Enviar solicitud</button>
+              <button type="reset" class="btn btn-ghost">Limpiar</button>
+              <span id="reqConfirm" class="hint"></span>
+            </div>
+          </form>
+          <div class="req-list" id="reqList" aria-live="polite"></div>
         </div>
       </section>
 
@@ -221,7 +261,7 @@
               <div class="field"><label for="c_cuit">CUIT / DNI</label><input id="c_cuit" placeholder="Ej.: 20-12345678-9" /></div>
               <div class="field"><label for="c_email">Correo *</label><input id="c_email" type="email" required placeholder="correo@ejemplo.com" /></div>
               <div class="field"><label for="c_domicilio">Domicilio</label><input id="c_domicilio" placeholder="Calle, número, ciudad, provincia" /></div>
-              <div class="field"><label for="c_servicio">Servicio *</label>
+              <div class="field"><label for="c_servicio">Servicio contratado *</label>
                 <select id="c_servicio" required>
                   <option value="" disabled selected>Elegí una categoría</option>
                   <option value="marketing">Marketing</option>
@@ -279,37 +319,46 @@
     'use strict';
 
     /* =====================================================
-       ⚠️ FIX CRÍTICO: obtener el contenedor del acordeón ANTES
-       de declarar funciones que lo usan para evitar la TDZ.
-       (Arregla: ReferenceError "Cannot access 'acc' before initialization")
+       FIX: obtener contenedor del acordeón ANTES de usarlo
        ===================================================== */
-    const acc = document.getElementById('acordeon'); // ✅ ahora existe antes de usarlo en closeAll/adjustOpenHeight
+    const acc = document.getElementById('acordeon');
 
-    /* Helper seguro para ajustes de altura del panel abierto */
     function adjustOpenHeight(){
-      if(!acc) return; // fallback defensivo
+      if(!acc) return;
       const open = acc.querySelector('.ac-item.activo .ac-body');
       if(!open) return;
-      open.style.maxHeight = 'none';              // permite medir sin tope
-      const h = open.scrollHeight;                // altura real del contenido
-      open.style.maxHeight = h + 'px';            // fija la altura animable
+      open.style.maxHeight = 'none';
+      open.style.maxHeight = open.scrollHeight + 'px';
     }
 
     /* =====================================================
        THEME: toggle claro/oscuro con persistencia
        ===================================================== */
-    const THEME_KEY='site_theme_acc_v2';
+    const THEME_KEY='site_theme_acc_v3';
     const applyTheme=t=>{ document.documentElement.setAttribute('data-theme',t); localStorage.setItem(THEME_KEY,t); document.getElementById('themeToggle')?.setAttribute('aria-pressed', String(t==='dark')); document.getElementById('themeIcon').textContent = t==='dark' ? '☀️' : '🌙'; };
     applyTheme(localStorage.getItem(THEME_KEY)||'light');
     document.getElementById('themeToggle')?.addEventListener('click',()=>{ const cur=localStorage.getItem(THEME_KEY)||'light'; applyTheme(cur==='dark'?'light':'dark'); });
 
     /* =====================================================
-       DATOS: bases, multiplicadores y features
+       PRECIOS INTEGRADOS (según tabla solicitada)
        ===================================================== */
-    const BASE = { marketing: 2000000, secretaria: 1500000, contabilidad: 1800000 }; // ARS base por categoría
-    const MULT = { basico: 1.0, intermedio: 1.6, pro: 2.4 };                         // multiplicadores por nivel
+    const PRICES = {
+      marketing:   { basico: 50000,  intermedio: 90000,  pro: 140000 },
+      secretaria:  { basico: 45000,  intermedio: 80000,  pro: 120000 },
+      contabilidad:{ basico: 55000,  intermedio: 95000,  pro: 150000 }
+    };
+    const EXTRAS = {
+      programacion:   { nombre:'Programación a medida',      desc:'Landing/apps pequeñas, correcciones y mejoras puntuales.', precio: 120000 },
+      cv:             { nombre:'Creación de CV profesional',  desc:'CV + carta + revisión de perfil.',                      precio: 8000   },
+      presentaciones: { nombre:'Diseño de presentaciones',    desc:'Pitch decks / ventas.',                                 precio: 10000  },
+      seo:            { nombre:'Optimización SEO on‑page',    desc:'Auditoría, metas, headings y microcopy.',               precio: 15000  },
+      nocode:         { nombre:'Automatizaciones No‑Code',    desc:'Zaps/Make e integraciones simples.',                    precio: 30000  }
+    };
     const FMT  = new Intl.NumberFormat('es-AR',{ style:'currency', currency:'ARS', maximumFractionDigits: 0 });
 
+    /* =====================================================
+       FEATURES por categoría y nivel
+       ===================================================== */
     const FEATURES = {
       marketing: {
         basico: ["2-3 posts/sem", "Calendario simple", "Métricas mensuales"],
@@ -336,24 +385,31 @@
     const BADGES = { basico:'Para empezar', intermedio:'Crecimiento', pro:'Máximo desempeño' };
     const ICONS  = { basico:'📄', intermedio:'📊', pro:'🚀' };
 
-    const price = (cat,lvl) => FMT.format(Math.round((BASE[cat]||0) * (MULT[lvl]||1))); // cálculo de referencia
+    const priceCat = (cat,lvl) => FMT.format(PRICES[cat]?.[lvl]||0);
 
-    // Tarjeta de un nivel con su lista de features
-    const tierCard = (cat,lvl) => `<article class="tier">
-      <div class="head"><div class="name">${ICONS[lvl]} ${LABELS[lvl]}</div><div class="badge">${BADGES[lvl]}</div></div>
-      <div class="price">${price(cat,lvl)} / mes</div>
-      <ul>${(FEATURES[cat]?.[lvl]||[]).map(f=>`<li>${f}</li>`).join('')}</ul>
-      <a class="btn cta" href="#contrato" data-open="contrato">Solicitar</a>
-    </article>`;
+    const tierCard = (cat,lvl) => {
+      const label = `${catLabel(cat)} — ${LABELS[lvl]}`;
+      const p = PRICES[cat]?.[lvl]||0;
+      return `<article class="tier">
+        <div class="head"><div class="name">${ICONS[lvl]} ${LABELS[lvl]}</div><div class="badge">${BADGES[lvl]}</div></div>
+        <div class="price">${priceCat(cat,lvl)} / mes</div>
+        <ul>${(FEATURES[cat]?.[lvl]||[]).map(f=>`<li>${f}</li>`).join('')}</ul>
+        <div class="row">
+          <button class="btn" type="button" data-req data-label="${label}" data-price="${p}">Solicitar este servicio</button>
+          <button class="btn btn-ghost" type="button" data-contrato data-cat="${cat}" data-lvl="${lvl}">Generar contrato</button>
+        </div>
+      </article>`;
+    };
+
+    function catLabel(c){ return ({marketing:'Marketing', secretaria:'Secretaría Adm.', contabilidad:'Contabilidad'})[c]||c; }
 
     function renderCategory(cat){
-      // Pinta las 3 tarjetas (Básico/Intermedio/Pro) para la categoría elegida
       if(!tiersEl) return;
       tiersEl.innerHTML=['basico','intermedio','pro'].map(l=>tierCard(cat,l)).join('');
-      adjustOpenHeight(); // ✅ ya seguro: acc existe antes
+      adjustOpenHeight();
+      populateDatalist(); // asegura que los planes aparezcan como opciones de solicitud
     }
 
-    // Binding de tabs (Marketing/Secretaría/Contabilidad)
     const tabs = Array.from(document.querySelectorAll('.tab'));
     tabs.forEach(btn=>{
       btn.addEventListener('click',()=>{
@@ -367,70 +423,108 @@
     /* =====================================================
        EXTRAS: cards visibles + checkboxes para contrato
        ===================================================== */
-    const EXTRAS = {
-      programacion: { nombre:'Programación a medida', desc:'Landing/apps pequeñas, correcciones y mejoras puntuales.', precio: 3500000 },
-      cv: { nombre:'Creación de CV profesional', desc:'CV + carta de presentación + perfil LinkedIn.', precio: 300000 },
-      presentaciones: { nombre:'Diseño de presentaciones', desc:'Pitch decks / presentaciones comerciales.', precio: 450000 },
-      seo: { nombre:'Optimización SEO on‑page', desc:'Auditoría, metas, headings y microcopy.', precio: 600000 },
-      nocode: { nombre:'Automatizaciones (No‑Code)', desc:'Zaps/Make + integraciones simples.', precio: 900000 }
-    };
     const extrasGrid = document.getElementById('extrasGrid');
     const extrasChecks = document.getElementById('extrasChecks');
 
-    // Cards de extras (con botón "Agregar" que tilda el checkbox homónimo)
     if (extrasGrid){ extrasGrid.innerHTML = Object.entries(EXTRAS).map(([k,v])=>`
       <div class="extra">
         <div>
           <h4 style="margin:0 0 6px">${v.nombre}</h4>
           <p class="hint" style="margin:0 0 8px">${v.desc}</p>
-          <span class="chip">${FMT.format(v.precio)} ${v.precio>1000000?'/ mes':'/ proyecto'}</span>
+          <span class="chip">${FMT.format(v.precio)} ${v.precio>=100000?'/ proyecto':'/ proyecto'}</span>
         </div>
-        <button class="btn btn-ghost" type="button" data-x="${k}">Agregar</button>
+        <div class="row" style="gap:8px">
+          <button class="btn" type="button" data-req data-label="${v.nombre}" data-price="${v.precio}">Solicitar</button>
+          <button class="btn btn-ghost" type="button" data-contrato data-extra="${k}">Contrato</button>
+        </div>
       </div>
     `).join(''); }
 
-    // Checkboxes dentro del contrato
     if (extrasChecks){ extrasChecks.innerHTML = Object.entries(EXTRAS).map(([k,v])=>`
       <label class="row"><input id="x_${k}" type="checkbox" name="extras" value="${k}"> ${v.nombre} — <span class="hint">${FMT.format(v.precio)}</span></label>
     `).join(''); }
 
-    extrasGrid?.addEventListener('click', e=>{
-      // Marca/desmarca el checkbox correspondiente al extra
-      const btn = e.target.closest('button[data-x]'); if(!btn) return;
-      const id = 'x_'+btn.dataset.x; const chk = document.getElementById(id);
-      if (chk){ chk.checked = !chk.checked; }
-      adjustOpenHeight(); // por si cambia la altura al agregar texto envolviendo
+    /* =====================================================
+       SOLICITUD: helpers (prefill, guardar, listar)
+       ===================================================== */
+    const REQ_KEY = 'solicitudes_v1';
+    const reqForm = document.getElementById('requestForm');
+    const rServicio = document.getElementById('r_servicio');
+    const rPrecioHint = document.getElementById('r_precio_hint');
+    const reqConfirm = document.getElementById('reqConfirm');
+    const reqList = document.getElementById('reqList');
+
+    function loadReq(){ try{ return JSON.parse(localStorage.getItem(REQ_KEY)||'[]'); }catch{ return []; } }
+    function saveReq(v){ try{ localStorage.setItem(REQ_KEY, JSON.stringify(v)); }catch{} }
+
+    function populateDatalist(){
+      const dl = document.getElementById('svcList'); if(!dl) return;
+      const planOpts = Object.keys(PRICES).flatMap(cat=>['basico','intermedio','pro'].map(lvl=>`${catLabel(cat)} — ${LABELS[lvl]}`));
+      const extraOpts = Object.values(EXTRAS).map(x=>x.nombre);
+      dl.innerHTML = [...planOpts, ...extraOpts].map(o=>`<option value="${o}"></option>`).join('');
+    }
+    populateDatalist();
+
+    function openRequest(label, price){
+      openSection('solicitud');
+      if(rServicio){ rServicio.value = label; }
+      if(rPrecioHint){ rPrecioHint.textContent = price? `Precio de referencia: ${FMT.format(price)}` : ''; }
+      adjustOpenHeight();
+      rServicio?.focus();
+    }
+
+    // Envío del formulario corto
+    reqForm?.addEventListener('submit', e=>{
+      e.preventDefault();
+      const nombre = document.getElementById('r_nombre').value?.trim();
+      const email  = document.getElementById('r_email').value?.trim();
+      const tel    = document.getElementById('r_tel').value?.trim();
+      const serv   = rServicio.value?.trim();
+      const msg    = document.getElementById('r_msg').value?.trim();
+      if(!nombre || !email || !tel || !serv){ reqConfirm.textContent='Completá los campos obligatorios'; return; }
+      const item = { nombre, email, tel, servicio: serv, msg, ts: new Date().toISOString() };
+      const arr = loadReq(); arr.push(item); saveReq(arr);
+      reqConfirm.textContent = 'Solicitud guardada. Gracias, te contactaremos pronto.';
+      renderReqList(); reqForm.reset(); rPrecioHint.textContent='';
+      adjustOpenHeight();
     });
+
+    function renderReqList(){
+      const arr = loadReq();
+      reqList.innerHTML = arr.slice(-5).reverse().map(it=>`<div class="req-card">
+        <strong>${it.servicio}</strong><br>
+        ${it.nombre} · ${it.email} · ${it.tel}<br>
+        <span class="hint">${new Date(it.ts).toLocaleString('es-AR')}</span>
+        ${it.msg?`<p style="margin:6px 0 0">${it.msg.replace(/</g,'&lt;')}</p>`:''}
+      </div>`).join('');
+    }
+    renderReqList();
 
     /* =====================================================
        CONTRATO: cálculo de totales + modal con acciones
        ===================================================== */
-    const form = document.getElementById('contractForm');
-    const resumen = document.getElementById('cotResumen');
+    const cotResumen = document.getElementById('cotResumen');
 
     function calcular(){
-      // Suma base*nivel + extras seleccionados y pinta un resumen
       const cat = document.getElementById('c_servicio').value; const lvl = document.getElementById('c_nivel').value;
-      const base = BASE[cat]||0; const mult = MULT[lvl]||1; const mensual = Math.round(base*mult);
+      const mensual = Math.round(PRICES[cat]?.[lvl]||0);
       const xs = [...document.querySelectorAll('input[name="extras"]:checked')].map(el=>el.value);
       const extrasTotal = xs.reduce((s,k)=>s+(EXTRAS[k]?.precio||0),0);
       const total = mensual + extrasTotal;
-      resumen.textContent = cat && lvl ? `Referencia mensual: ${FMT.format(mensual)}  ·  Extras: ${FMT.format(extrasTotal)}  ·  Total: ${FMT.format(total)}` : '';
+      cotResumen.textContent = cat && lvl ? `Referencia mensual: ${FMT.format(mensual)}  ·  Extras: ${FMT.format(extrasTotal)}  ·  Total: ${FMT.format(total)}` : '';
       return { mensual, extrasTotal, total, xs };
     }
-    ['change','input'].forEach(evt=>form.addEventListener(evt, ()=>{ calcular(); adjustOpenHeight(); }));
+    document.getElementById('contractForm')?.addEventListener('change', ()=>{ calcular(); adjustOpenHeight(); });
 
-    // Modal del contrato
     const modal = document.getElementById('modalContrato');
     const mcClose = document.getElementById('mcClose');
     const mcDesc = document.getElementById('mcDesc');
 
     document.getElementById('btnContrato')?.addEventListener('click',()=>{
-      // Validaciones mínimas
       const nombre = document.getElementById('c_nombre').value?.trim();
       const email = document.getElementById('c_email').value?.trim();
-      const cat = document.getElementById('c_servicio').value; const catLabel = {marketing:'Marketing',secretaria:'Secretaría Administrativa',contabilidad:'Contabilidad'}[cat]||'';
-      const lvl = document.getElementById('c_nivel').value; const lvlLabel = {basico:'Básico',intermedio:'Intermedio',pro:'Pro'}[lvl]||'';
+      const cat = document.getElementById('c_servicio').value; const catLabelStr = catLabel(cat);
+      const lvl = document.getElementById('c_nivel').value; const lvlLabel = LABELS[lvl]||'';
       if (!nombre || !email || !cat || !lvl){ alert('Completá Cliente, Correo, Servicio y Nivel.'); return; }
 
       const cuit = document.getElementById('c_cuit').value?.trim();
@@ -442,13 +536,12 @@
       const features = (FEATURES[cat]?.[lvl]||[]).map(f=>`• ${f}`).join('<br>');
       const hoy = new Date(); const f = d=>d?new Date(d).toLocaleDateString('es-AR'):'—';
 
-      // HTML del contrato
       const html = `
         <h3>Contrato de Prestación de Servicios</h3>
         <p><strong>Entre:</strong> <em>${nombre}</em> ${cuit?`(CUIT/DNI: ${cuit})`:''} ${dom?`— Domicilio: ${dom}`:''} — correo: ${email} (en adelante, el "Cliente").</p>
         <p>y <strong>Maestro Servicios</strong>, en adelante, el "Proveedor"; en conjunto, las "Partes".</p>
         <ol>
-          <li><strong>Objeto.</strong> Servicio de <strong>${catLabel} — Nivel ${lvlLabel}</strong>; alcance:<br>${features}</li>
+          <li><strong>Objeto.</strong> Servicio de <strong>${catLabelStr} — Nivel ${lvlLabel}</strong>; alcance:<br>${features}</li>
           <li><strong>Extras.</strong> (si corresponden):<br>${extrasList}</li>
           <li><strong>Vigencia.</strong> Inicio: <strong>${f(inicio)}</strong>. Plazo estimado: <strong>${plazo||'—'} meses</strong>.</li>
           <li><strong>Honorarios.</strong> Referencia mensual: <strong>${FMT.format(mensual)}</strong>; extras: <strong>${FMT.format(extrasTotal)}</strong>; total referencia: <strong>${FMT.format(total)}</strong>. La cotización final puede ajustarse por alcance.</li>
@@ -465,12 +558,11 @@
         <p style="margin-top:16px">______________________________<br>Maestro Servicios</p>
       `;
       mcDesc.innerHTML = html; modal.setAttribute('open','');
-      adjustOpenHeight(); // por si el modal abre con contenido largo y cambia layout
+      adjustOpenHeight();
     });
     mcClose?.addEventListener('click',()=>modal.removeAttribute('open'));
     modal?.addEventListener('click',e=>{ if(e.target===modal) modal.removeAttribute('open'); });
 
-    // Acciones: copiar, descargar TXT, imprimir
     document.getElementById('btnCopiar')?.addEventListener('click',()=>{
       const tmp = document.createElement('div'); tmp.innerHTML = mcDesc.innerHTML; const text = tmp.textContent || tmp.innerText || '';
       navigator.clipboard?.writeText(text).then(()=>alert('Contrato copiado al portapapeles.'));
@@ -490,7 +582,6 @@
        ACORDEÓN: abrir/cerrar con animación suave
        ===================================================== */
     function closeAll(){
-      // Colapsa todos los bloques y limpia estado
       if(!acc) return;
       acc.querySelectorAll('.ac-item').forEach(it=>{
         if(it.classList.contains('activo')){
@@ -505,8 +596,7 @@
     }
 
     function openSection(key){
-      // Abre una sección por clave ("planes" | "extras" | "contrato")
-      const id = key==='planes' ? 'ac-planes' : key==='extras' ? 'ac-extras' : 'ac-contrato';
+      const id = key==='planes' ? 'ac-planes' : key==='extras' ? 'ac-extras' : key==='solicitud' ? 'ac-solicitud' : 'ac-contrato';
       const item = document.getElementById(id); if(!item) return;
       const body = item.querySelector('.ac-body');
       closeAll();
@@ -529,7 +619,6 @@
         const item = btn.closest('.ac-item');
         const key = item.id.replace('ac-','');
         if(item.classList.contains('activo')){
-          // Cierra la sección activa
           const body = item.querySelector('.ac-body');
           body.style.maxHeight = 0; body.style.paddingTop = body.style.paddingBottom = '0px';
           item.classList.remove('activo');
@@ -541,11 +630,26 @@
       });
     });
 
-    // Click desde chips del subnav o links con data-open (topbar/hero/cards)
+    // Enrutamiento por data-open + acciones especiales (req/contrato)
     document.addEventListener('click', e=>{
-      const trg = e.target.closest('[data-open]');
-      if(!trg) return; e.preventDefault();
-      openSection(trg.dataset.open);
+      const trg = e.target.closest('[data-open], [data-req], [data-contrato]');
+      if(!trg) return;
+      if(trg.hasAttribute('data-open')){ e.preventDefault(); openSection(trg.dataset.open); return; }
+      if(trg.hasAttribute('data-req')){
+        const label = trg.dataset.label; const price = Number(trg.dataset.price||0);
+        e.preventDefault(); openRequest(label, price); return;
+      }
+      if(trg.hasAttribute('data-contrato')){
+        e.preventDefault();
+        const cat = trg.dataset.cat; const lvl = trg.dataset.lvl; const extra = trg.dataset.extra;
+        openSection('contrato');
+        if(cat){ document.getElementById('c_servicio').value = cat; }
+        if(lvl){ document.getElementById('c_nivel').value = lvl; }
+        if(extra){ const chk = document.getElementById('x_'+extra); if(chk) chk.checked = true; }
+        calcular(); adjustOpenHeight();
+        document.getElementById('c_servicio').focus();
+        return;
+      }
     });
 
     // Inicial: abre Planes y fija año del footer
@@ -553,17 +657,15 @@
     const y = document.getElementById('year'); if (y) y.textContent = String(new Date().getFullYear());
 
     /* =====================================================
-       🧪 SELF-TESTS (no afectan UI) — útiles al debuggear
+       🧪 SELF-TESTS — no cambian tests previos, agregan más
        ===================================================== */
     try{
       console.assert(!!acc, '[TEST] #acordeon existe en el DOM');
-      // tras render inicial: deberían existir 3 tiers para marketing
       console.assert(document.querySelectorAll('#tiers .tier').length === 3, '[TEST] Render de 3 niveles en Planes');
-      // prueba de cambio de sección
-      openSection('extras');
-      console.assert(document.getElementById('ac-extras').classList.contains('activo'), '[TEST] Extras quedó activo');
-      console.assert(!document.getElementById('ac-planes').classList.contains('activo'), '[TEST] Planes quedó colapsado');
-      // volver a Planes
+      console.assert(PRICES.marketing.basico === 50000 && PRICES.contabilidad.pro === 150000, '[TEST] Precios integrados correctamente');
+      openRequest('Marketing — Básico', 50000);
+      console.assert(document.getElementById('ac-solicitud').classList.contains('activo'), '[TEST] Se abrió Solicitud');
+      console.assert(document.getElementById('r_servicio').value.includes('Marketing'), '[TEST] Prefill de servicio en Solicitud');
       openSection('planes');
     }catch(err){ console.warn('Self-tests warning:', err); }
 
