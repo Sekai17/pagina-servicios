@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Maestro Servicios · Marketing · Secretaría · Contabilidad</title>
+  <meta name="description" content="Servicios profesionales con niveles, extras y contrato autogenerado. Responsive y accesible." />
+  <style>
+    /* ==== Variables base y compensaciones de UI ==== */
+    :root{
+      --bg:#0f1115;           /* arrancamos en dark por tu captura */
+      --text:#f2f4f7;
+      --muted:#a0a6b0;
+      --card:#151922;
+      --brand-1:#4ca9ff; --brand-2:#6c63ff; --accent:#ff9800; --ring:rgba(108,99,255,.35);
+      --shadow-sm:0 6px 16px rgba(0,0,0,.5); --shadow-md:0 10px 28px rgba(0,0,0,.65);
+      --header-h:64px;        /* alto aproximado del header */
+      --header-h-mobile:92px; /* header multi‑fila al desplegar menú */
+      --cta-h:64px;           /* alto del CTA sticky */
+    }
+    [data-theme="light"]{
+      --bg:#f7f8fb; --text:#232429; --muted:#6a7079; --card:#ffffff;
+      --shadow-sm:0 6px 16px rgba(0,0,0,.08); --shadow-md:0 10px 28px rgba(0,0,0,.12);
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Arial,sans-serif;line-height:1.55}
+    .wrap{width:min(1100px,92vw);margin-inline:auto}
+    a.skip{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
+    a.skip:focus{left:10px;top:10px;width:auto;height:auto;background:#000;color:#fff;padding:8px 12px;border-radius:8px;z-index:999}
+
+    /* ==== Topbar con menú colapsable ==== */
+    .topbar{position:sticky;top:0;z-index:100;backdrop-filter:blur(8px);background:color-mix(in srgb,var(--card) 92%, transparent);border-bottom:1px solid rgba(255,255,255,.08)}
+    .topbar .wrap{display:flex;align-items:center;justify-content:space-between;padding:10px 0;gap:12px}
+    .brand{font-weight:900;color:var(--brand-2);text-decoration:none;letter-spacing:.2px;white-space:nowrap}
+
+    .menu-toggle{display:none;align-items:center;gap:8px;border:1px solid rgba(255,255,255,.12);background:var(--card);color:var(--text);border-radius:12px;padding:8px 12px;cursor:pointer}
+    .menu-toggle[aria-expanded="true"]{outline:0;box-shadow:0 0 0 4px var(--ring)}
+
+    nav#mainnav{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+    nav#mainnav a{color:var(--text);text-decoration:none;font-weight:700;padding:8px 12px;border-radius:10px;transition:transform .18s,box-shadow .18s,background .18s}
+    nav#mainnav a:hover{background:var(--card);box-shadow:var(--shadow-sm);transform:translateY(-1px)}
+    .theme-toggle{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:12px;border:1px solid rgba(255,255,255,.12);background:var(--card);cursor:pointer}
+    .theme-toggle span.label{display:inline}
+
+    /* Modo móvil: menú hamburguesa */
+    @media (max-width:860px){
+      .menu-toggle{display:inline-flex}
+      nav#mainnav{display:none;flex-direction:column;align-items:flex-start;background:var(--card);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:10px;position:absolute;right:12px;top:calc(100% + 8px);box-shadow:var(--shadow-md)}
+      nav#mainnav[data-open="true"]{display:flex}
+      .theme-toggle span.label{display:none} /* deja solo el icono para ahorrar espacio */
+    }
+
+    /* ==== Hero ===== */
+    .hero{color:#fff;text-align:center;padding: clamp(48px,8vw,96px) 0;background:
+      radial-gradient(1200px 400px at 10% 0%, rgba(255,255,255,.12), transparent 60%),
+      linear-gradient(135deg,#5bb0ff 0%,#7a74ff 55%,#6c63ff 100%)}
+    .hero h1{margin:0 0 10px;font-weight:900;font-size:clamp(28px,3.6vw,44px)}
+    .hero p{margin:0 0 22px;font-size:clamp(16px,2.1vw,18px);opacity:.95}
+    .btn{display:inline-block;background:var(--accent);color:#fff;padding:12px 22px;border-radius:12px;text-decoration:none;font-weight:800;box-shadow:var(--shadow-sm);transition:transform .18s,box-shadow .18s,filter .18s}
+    .btn:hover{transform:translateY(-2px);box-shadow:var(--shadow-md);filter:brightness(1.03)}
+    .btn-ghost{background:var(--card);color:var(--brand-2);border:2px solid color-mix(in srgb,var(--brand-2) 18%, transparent)}
+
+    /* ==== Secciones, compensación por header sticky y CTA sticky ==== */
+    main{padding-bottom:var(--cta-h)} /* evita que el CTA tape el contenido en mobile */
+    section{scroll-margin-top:var(--header-h)}
+    @media (max-width:860px){ section{scroll-margin-top:var(--header-h-mobile)} }
+
+    /* ==== Services / cards ==== */
+    .services{padding: clamp(36px,6vw,64px) 0}
+    .services h2{text-align:center;margin:0 0 14px}
+    .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    @media (max-width:900px){.grid-3{grid-template-columns:1fr 1fr}}
+    @media (max-width:640px){.grid-3{grid-template-columns:1fr}}
+    .service{background:var(--card);border-radius:18px;padding:22px;text-align:center;border:1px solid rgba(255,255,255,.08);box-shadow:var(--shadow-sm);transition:transform .18s,box-shadow .18s,border-color .18s}
+    .service:hover{transform:translateY(-3px);box-shadow:var(--shadow-md);border-color:color-mix(in srgb,var(--brand-2) 22%, transparent)}
+    .icon{width:56px;height:56px;margin:6px auto 8px;color:var(--brand-2)}
+
+    /* ==== Tabs + Tiers ==== */
+    .plans{padding: clamp(36px,6vw,64px) 0}
+    .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;justify-content:center}
+    .tab{appearance:none;border:1px solid rgba(255,255,255,.12);background:var(--card);padding:10px 14px;border-radius:12px;font-weight:900;cursor:pointer;box-shadow:var(--shadow-sm)}
+    .tab[aria-selected="true"]{color:#fff;background:linear-gradient(135deg,var(--brand-1),var(--brand-2));border-color:transparent}
+    .tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    @media (max-width:900px){.tiers{grid-template-columns:1fr 1fr}}
+    @media (max-width:640px){.tiers{grid-template-columns:1fr}}
+    .tier{background:var(--card);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:20px;box-shadow:var(--shadow-sm);display:flex;flex-direction:column;transition:transform .18s,box-shadow .18s,border-color .18s}
+    .tier:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);border-color:color-mix(in srgb,var(--brand-2) 22%, transparent)}
+    .tier .head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px}
+    .tier .price{margin:6px 0 10px;color:var(--brand-2);font-weight:900;font-size:1.2rem}
+    .tier ul{list-style:none;padding:0;margin:0 0 12px}
+    .tier ul li{display:flex;gap:8px;margin:8px 0}
+    .tier ul li::before{content:"✓";color:var(--brand-2);font-weight:900}
+    .tier .cta{margin-top:auto;align-self:flex-start}
+    .price-note{text-align:center;margin-top:10px;color:var(--muted)}
+
+    /* ==== Extras ==== */
+    .extras{padding: clamp(36px,6vw,64px) 0}
+    .extras-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    @media (max-width:900px){.extras-grid{grid-template-columns:1fr 1fr}}
+    @media (max-width:640px){.extras-grid{grid-template-columns:1fr}}
+    .extra{background:var(--card);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:16px;box-shadow:var(--shadow-sm);display:flex;gap:12px;align-items:flex-start;justify-content:space-between}
+    .chip{font-size:.8rem;border:1px solid rgba(255,255,255,.16);border-radius:999px;padding:4px 8px}
+
+    /* ==== Contrato ==== */
+    .contract{padding: clamp(36px,6vw,64px) 0}
+    .contract-card{background:var(--card);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:18px;box-shadow:var(--shadow-sm)}
+    .contract-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    @media (max-width:800px){.contract-grid{grid-template-columns:1fr}}
+    .field{display:flex;flex-direction:column}
+    label{font-weight:800;margin-bottom:6px}
+    input,select,textarea{border:1.2px solid rgba(255,255,255,.16);border-radius:12px;padding:12px 14px;font:inherit;background:var(--card);color:var(--text);transition:border-color .18s,box-shadow .18s}
+    input:focus,select:focus,textarea:focus{outline:0;border-color:color-mix(in srgb,var(--brand-2) 45%, transparent);box-shadow:0 0 0 4px var(--ring)}
+    .extras-checks{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    @media (max-width:600px){.extras-checks{grid-template-columns:1fr}}
+    .row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+    .hint{color:var(--muted);font-size:.9rem}
+
+    /* ==== Modal contrato ==== */
+    .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.45);padding:20px}
+    .modal[open]{display:flex}
+    .modal-card{background:var(--card);color:var(--text);width:min(900px,96vw);max-height:90vh;overflow:auto;border-radius:16px;box-shadow:var(--shadow-md)}
+    .modal-head{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid rgba(255,255,255,.08)}
+    .modal-body{padding:16px}
+    .modal-actions{display:flex;gap:10px;padding:12px 14px;border-top:1px solid rgba(255,255,255,.08)}
+
+    /* ==== Contacto ==== */
+    .contact .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    @media (max-width:700px){.contact .grid{grid-template-columns:1fr}}
+    .checkbox-container{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:.95rem;line-height:1.4;font-weight:600}
+    #alerta{margin-top:.5rem;font-size:.95rem}
+    #alerta.ok{color:#1a7f37} #alerta.err{color:#ff6b6b}
+
+    /* ==== CTA sticky (no tapa contenido) ==== */
+    .cta-sticky{position:sticky;bottom:0;z-index:8;backdrop-filter:blur(8px);background:color-mix(in srgb,var(--card) 80%, transparent);border-top:1px solid rgba(255,255,255,.12);padding:.6rem;text-align:center}
+
+    /* ==== Footer ==== */
+    footer{padding:28px 0;text-align:center;color:#fff;background:linear-gradient(180deg,#6c63ff 0%,#5a53e6 100%)}
+  </style>
+</head>
+<body class="has-cta">
+  <a href="#contenido" class="skip">Saltar al contenido</a>
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="#">Maestro Servicios</a>
+      <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="mainnav" aria-label="Abrir menú">☰ Menú</button>
+      <nav id="mainnav" role="navigation" aria-label="Principal">
+        <a href="#servicios">Servicios</a>
+        <a href="#planes">Planes</a>
+        <a href="#extras">Extras</a>
+        <a href="#contrato">Contrato</a>
+        <a href="#contacto">Contacto</a>
+        <button id="themeToggle" class="theme-toggle" type="button" aria-pressed="false" aria-label="Cambiar tema"><span id="themeIcon" aria-hidden="true">☀️</span> <span class="label">Tema</span></button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="wrap">
+      <h1>Soluciones en Marketing, Secretaría y Contabilidad</h1>
+      <p>Planes por niveles en ARS, extras opcionales y contrato listo en dos clics.</p>
+      <a class="btn" href="#planes">Ver planes</a>
+      <a class="btn btn-ghost" style="margin-left:8px" href="#contrato">Generar contrato</a>
+    </div>
+  </section>
+
+  <main id="contenido">
+    <!-- Servicios -->
+    <section id="servicios" class="services" aria-labelledby="svc-title">
+      <div class="wrap">
+        <h2 id="svc-title">Nuestros Servicios</h2>
+        <div class="grid-3">
+          <article class="service">
+            <div class="icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 10v4a2 2 0 0 0 2 2h2l3.5 3v-7L7 12H5a2 2 0 0 1-2-2z" fill="currentColor"/><path d="M14 5l7 4v6l-7 4V5z" fill="currentColor" opacity=".85"/></svg>
+            </div>
+            <h3>Marketing</h3>
+            <p>Estrategia, contenido y campañas para crecer con métricas claras.</p>
+          </article>
+          <article class="service">
+            <div class="icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9 3h6a2 2 0 0 1 2 2h1a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h1a2 2 0 0 1 2-2z" fill="currentColor" opacity=".2"/><rect x="8" y="2.5" width="8" height="3" rx="1.2" fill="currentColor"/><rect x="6" y="7.5" width="12" height="1.8" rx=".9" fill="currentColor"/><rect x="6" y="11.5" width="12" height="1.8" rx=".9" fill="currentColor"/><rect x="6" y="15.5" width="8" height="1.8" rx=".9" fill="currentColor"/></svg>
+            </div>
+            <h3>Secretaría Administrativa</h3>
+            <p>Agenda, atención y documentación para un backoffice ágil.</p>
+          </article>
+          <article class="service">
+            <div class="icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><rect x="5" y="3" width="14" height="18" rx="2.2" fill="currentColor" opacity=".2"/><rect x="8" y="6" width="8" height="3" rx="1" fill="currentColor"/><rect x="7.5" y="11" width="3" height="3" rx=".6" fill="currentColor"/><rect x="12" y="11" width="3" height="3" rx=".6" fill="currentColor"/><rect x="16.5" y="11" width="0.8" height="3" rx=".4" fill="currentColor"/></svg>
+            </div>
+            <h3>Contabilidad</h3>
+            <p>Control financiero, conciliaciones y cumplimiento tributario.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Planes -->
+    <section id="planes" class="plans" aria-labelledby="plan-title">
+      <div class="wrap">
+        <h2 id="plan-title" style="text-align:center;margin:0 0 10px">Planes por niveles</h2>
+        <div class="tabs" role="tablist" aria-label="Categorías de servicio">
+          <button class="tab" role="tab" aria-selected="true" data-cat="marketing">Marketing</button>
+          <button class="tab" role="tab" aria-selected="false" data-cat="secretaria">Secretaría</button>
+          <button class="tab" role="tab" aria-selected="false" data-cat="contabilidad">Contabilidad</button>
+        </div>
+        <div id="tiers" class="tiers"></div>
+        <p class="price-note">Precios de referencia (ARS). La cotización final se confirma por mensaje.</p>
+      </div>
+    </section>
+
+    <!-- Extras -->
+    <section id="extras" class="extras" aria-labelledby="extras-title">
+      <div class="wrap">
+        <h2 id="extras-title" style="text-align:center;margin:0 0 10px">Servicios extras</h2>
+        <p style="text-align:center;color:var(--muted);margin:0 0 18px">Sumalos a cualquier plan. Se cotizan aparte como monto mensual o por proyecto.</p>
+        <div class="extras-grid" id="extrasGrid"></div>
+      </div>
+    </section>
+
+    <!-- Contrato -->
+    <section id="contrato" class="contract" aria-labelledby="contract-title">
+      <div class="wrap">
+        <h2 id="contract-title" style="text-align:center;margin:0 0 12px">Contrato de prestación de servicios</h2>
+        <p class="hint" style="text-align:center;margin:0 0 18px">Modelo orientativo. No sustituye asesoramiento legal.</p>
+        <div class="contract-card">
+          <form id="contractForm">
+            <div class="contract-grid">
+              <div class="field"><label for="c_nombre">Cliente *</label><input id="c_nombre" required placeholder="Ej.: Juan Pérez / Empresa SA" /></div>
+              <div class="field"><label for="c_cuit">CUIT / DNI</label><input id="c_cuit" placeholder="Ej.: 20-12345678-9" /></div>
+              <div class="field"><label for="c_email">Correo *</label><input id="c_email" type="email" required placeholder="correo@ejemplo.com" /></div>
+              <div class="field"><label for="c_domicilio">Domicilio</label><input id="c_domicilio" placeholder="Calle, número, ciudad, provincia" /></div>
+              <div class="field"><label for="c_servicio">Servicio *</label>
+                <select id="c_servicio" required>
+                  <option value="" disabled selected>Elegí una categoría</option>
+                  <option value="marketing">Marketing</option>
+                  <option value="secretaria">Secretaría Administrativa</option>
+                  <option value="contabilidad">Contabilidad</option>
+                </select>
+              </div>
+              <div class="field"><label for="c_nivel">Nivel *</label>
+                <select id="c_nivel" required>
+                  <option value="" disabled selected>Elegí nivel</option>
+                  <option value="basico">Básico</option>
+                  <option value="intermedio">Intermedio</option>
+                  <option value="pro">Pro</option>
+                </select>
+              </div>
+              <div class="field"><label for="c_inicio">Fecha de inicio</label><input id="c_inicio" type="date" /></div>
+              <div class="field"><label for="c_plazo">Plazo (meses)</label><input id="c_plazo" type="number" min="1" step="1" placeholder="Ej.: 3" /></div>
+            </div>
+            <div class="row" style="margin:12px 0 6px"><strong>Extras opcionales</strong><span class="hint">(se suman al precio de referencia)</span></div>
+            <div class="extras-checks" id="extrasChecks"></div>
+            <div class="field" style="margin-top:12px"><label for="c_notas">Notas</label><textarea id="c_notas" rows="3" placeholder="Aclaraciones, alcances específicos, hitos, etc."></textarea></div>
+            <div class="row" style="margin-top:12px">
+              <button type="button" class="btn" id="btnContrato">Generar contrato</button>
+              <button type="reset" class="btn btn-ghost">Limpiar</button>
+              <span id="cotResumen" class="hint"></span>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contacto -->
+    <section id="contacto" class="contact" aria-labelledby="contact-title">
+      <div class="wrap">
+        <h2 id="contact-title" style="text-align:center;margin:0 0 12px">Contacto</h2>
+        <p style="text-align:center">Completá el formulario y te respondemos.</p>
+        <form id="contact-form" novalidate>
+          <div class="contract-card">
+            <div class="grid contact-grid">
+              <div class="field"><label for="nombre">Nombre</label><input id="nombre" name="nombre" type="text" placeholder="Tu nombre" /></div>
+              <div class="field"><label for="email2">Correo electrónico *</label><input id="email2" name="email" type="email" required placeholder="tucorreo@ejemplo.com" /><small class="hint">Obligatorio para confirmación.</small></div>
+              <div class="field"><label for="servicio2">Servicio de interés *</label>
+                <select id="servicio2" name="servicio" required>
+                  <option value="" selected disabled>Elegí una opción</option>
+                  <option>Marketing</option>
+                  <option>Secretaría Administrativa</option>
+                  <option>Contabilidad</option>
+                </select>
+              </div>
+              <div class="field"><label for="canal">Canal preferido *</label>
+                <select id="canal" name="canal" required>
+                  <option value="" selected disabled>Elegí un canal</option>
+                  <option>WhatsApp</option>
+                  <option>Telegram</option>
+                  <option>Messenger</option>
+                </select>
+              </div>
+              <div class="field" style="grid-column:1/-1"><label for="mensaje">Mensaje *</label><textarea id="mensaje" name="mensaje" rows="5" required placeholder="Contanos brevemente tu necesidad..."></textarea></div>
+              <input class="hp" name="company" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;" />
+              <div class="field" style="grid-column:1/-1">
+                <label class="checkbox-container" for="consent">
+                  <input id="consent" name="consent" type="checkbox" required />
+                  <span>Acepto la política de privacidad y el uso de mis datos para contactarme.</span>
+                </label>
+              </div>
+            </div>
+            <div class="row" style="margin-top:10px">
+              <button class="btn" type="submit">Enviar</button>
+              <span class="hint">* Campos obligatorios</span>
+            </div>
+            <div id="alerta" role="status" aria-live="polite"></div>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- CTA sticky -->
+  <div class="cta-sticky">
+    <button class="btn" type="button" onclick="document.getElementById('contacto').scrollIntoView({behavior:'smooth'})">Solicitar propuesta</button>
+  </div>
+
+  <footer><div class="wrap">&copy; <span id="year">2025</span> · Maestro Servicios</div></footer>
+
+  <!-- Modal de contrato -->
+  <div class="modal" id="modalContrato" role="dialog" aria-modal="true" aria-labelledby="mcTitle" aria-describedby="mcDesc">
+    <div class="modal-card">
+      <div class="modal-head"><strong id="mcTitle">Contrato de prestación de servicios</strong><button class="btn btn-ghost" id="mcClose" type="button">Cerrar ✕</button></div>
+      <div class="modal-body"><div id="mcDesc" class="contract-text"></div></div>
+      <div class="modal-actions">
+        <button class="btn btn-ghost" id="btnCopiar" type="button">Copiar</button>
+        <button class="btn btn-ghost" id="btnDescargar" type="button">Descargar .txt</button>
+        <button class="btn" id="btnImprimir" type="button">Imprimir / PDF</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  (function(){
+    'use strict';
+    /* ===== Tema ===== */
+    const THEME_KEY='site_theme_v3';
+    const applyTheme=t=>{ document.documentElement.setAttribute('data-theme',t); localStorage.setItem(THEME_KEY,t); document.getElementById('themeToggle')?.setAttribute('aria-pressed', String(t==='dark')); document.getElementById('themeIcon').textContent = t==='dark' ? '☀️' : '🌙'; };
+    applyTheme(localStorage.getItem(THEME_KEY)||'dark');
+    document.getElementById('themeToggle')?.addEventListener('click',()=>{ const cur=localStorage.getItem(THEME_KEY)||'dark'; applyTheme(cur==='dark'?'light':'dark'); });
+
+    /* ===== Menú móvil ===== */
+    const menuBtn = document.getElementById('menuToggle');
+    const mainnav = document.getElementById('mainnav');
+    menuBtn?.addEventListener('click',()=>{
+      const open = mainnav.getAttribute('data-open')==='true';
+      mainnav.setAttribute('data-open', String(!open));
+      menuBtn.setAttribute('aria-expanded', String(!open));
+    });
+    // Cierra el menú al navegar por anclas
+    mainnav?.addEventListener('click', (e)=>{ const link = e.target.closest('a[href^="#"]'); if(!link) return; mainnav.setAttribute('data-open','false'); menuBtn.setAttribute('aria-expanded','false'); });
+
+    /* ===== Datos de planes ===== */
+    const BASE = { marketing: 2000000, secretaria: 1500000, contabilidad: 1800000 };
+    const MULT = { basico: 1.0, intermedio: 1.6, pro: 2.4 };
+    const FMT  = new Intl.NumberFormat('es-AR',{ style:'currency', currency:'ARS', maximumFractionDigits: 0 });
+    const FEATURES = {
+      marketing: {
+        basico: ["2-3 posts/sem", "Calendario simple", "Métricas mensuales"],
+        intermedio: ["4-6 posts/sem", "Plan de contenidos", "Métricas + recomendaciones", "1 campaña trimestral"],
+        pro: ["7-10 posts/sem", "Estrategia trimestral", "Reportes quincenales", "Campañas continuas"]
+      },
+      secretaria: {
+        basico: ["Agenda y coordinación", "Gestión básica de correos", "Documentación"],
+        intermedio: ["Atención a clientes", "Plantillas y protocolos", "Reportes quincenales"],
+        pro: ["Backoffice completo", "SLA interno", "Reportes semanales", "Optimización de procesos"]
+      },
+      contabilidad: {
+        basico: ["Registro ingresos/gastos", "Conciliación básica", "Reporte mensual"],
+        intermedio: ["Análisis de costos", "Optimización fiscal inicial", "Reporte + recomendaciones"],
+        pro: ["Proyección de flujo", "Tributación avanzada", "Acompañamiento mensual", "Dashboard básico"]
+      }
+    };
+
+    /* ===== Render de planes ===== */
+    const tiersEl = document.getElementById('tiers');
+    const LABELS = { basico:'Básico', intermedio:'Intermedio', pro:'Pro' };
+    const BADGES = { basico:'Para empezar', intermedio:'Crecimiento', pro:'Máximo desempeño' };
+    const ICONS  = { basico:'📄', intermedio:'📊', pro:'🚀' };
+    const price = (cat,lvl) => FMT.format(Math.round((BASE[cat]||0) * (MULT[lvl]||1)));
+    const tierCard = (cat,lvl) => `<article class="tier">
+      <div class="head"><div class="name">${ICONS[lvl]} ${LABELS[lvl]}</div><div class="badge">${BADGES[lvl]}</div></div>
+      <div class="price">${price(cat,lvl)} / mes</div>
+      <ul>${(FEATURES[cat]?.[lvl]||[]).map(f=>`<li>${f}</li>`).join('')}</ul>
+      <a class="btn cta" href="#contacto">Solicitar</a>
+    </article>`;
+    function renderCategory(cat){ if(!tiersEl) return; tiersEl.innerHTML=['basico','intermedio','pro'].map(l=>tierCard(cat,l)).join(''); }
+    const tabs = Array.from(document.querySelectorAll('.tab'));
+    tabs.forEach(btn=>{ btn.addEventListener('click',()=>{ tabs.forEach(b=>b.setAttribute('aria-selected','false')); btn.setAttribute('aria-selected','true'); renderCategory(btn.dataset.cat); }); });
+    renderCategory('marketing');
+
+    /* ===== Extras ===== */
+    const EXTRAS = {
+      programacion: { nombre:'Programación a medida', desc:'Landing/apps pequeñas, correcciones y mejoras puntuales.', precio: 3500000 },
+      cv: { nombre:'Creación de CV profesional', desc:'CV + carta de presentación + perfil LinkedIn.', precio: 300000 },
+      presentaciones: { nombre:'Diseño de presentaciones', desc:'Pitch decks / presentaciones comerciales.', precio: 450000 },
+      seo: { nombre:'Optimización SEO on‑page', desc:'Auditoría, metas, headings y microcopy.', precio: 600000 },
+      nocode: { nombre:'Automatizaciones (No‑Code)', desc:'Zaps/Make + integraciones simples.', precio: 900000 }
+    };
+    const extrasGrid = document.getElementById('extrasGrid');
+    const extrasChecks = document.getElementById('extrasChecks');
+    if (extrasGrid){ extrasGrid.innerHTML = Object.entries(EXTRAS).map(([k,v])=>`
+      <div class="extra">
+        <div>
+          <h4>${v.nombre}</h4>
+          <p class="hint">${v.desc}</p>
+          <span class="chip">${FMT.format(v.precio)} ${v.precio>1000000?'/ mes':'/ proyecto'}</span>
+        </div>
+        <button class="btn btn-ghost" type="button" data-x="${k}" onclick="document.getElementById('x_${k}')?.click()">Agregar</button>
+      </div>
+    `).join(''); }
+    if (extrasChecks){ extrasChecks.innerHTML = Object.entries(EXTRAS).map(([k,v])=>`
+      <label class="checkbox-container"><input id="x_${k}" type="checkbox" name="extras" value="${k}"> ${v.nombre} — <span class="hint">${FMT.format(v.precio)}</span></label>
+    `).join(''); }
+
+    /* ===== Contrato ===== */
+    const form = document.getElementById('contractForm');
+    const resumen = document.getElementById('cotResumen');
+    function calcular(){
+      const cat = document.getElementById('c_servicio').value; const lvl = document.getElementById('c_nivel').value;
+      const base = BASE[cat]||0; const mult = MULT[lvl]||1; const mensual = Math.round(base*mult);
+      const xs = [...document.querySelectorAll('input[name="extras"]:checked')].map(el=>el.value);
+      const extrasTotal = xs.reduce((s,k)=>s+(EXTRAS[k]?.precio||0),0);
+      const total = mensual + extrasTotal;
+      resumen.textContent = cat && lvl ? `Referencia mensual: ${FMT.format(mensual)}  ·  Extras: ${FMT.format(extrasTotal)}  ·  Total: ${FMT.format(total)}` : '';
+      return { mensual, extrasTotal, total, xs };
+    }
+    ['change','input'].forEach(evt=>form.addEventListener(evt, calcular));
+
+    const modal = document.getElementById('modalContrato');
+    const mcClose = document.getElementById('mcClose');
+    const mcDesc = document.getElementById('mcDesc');
+    document.getElementById('btnContrato')?.addEventListener('click',()=>{
+      const nombre = document.getElementById('c_nombre').value?.trim();
+      const email = document.getElementById('c_email').value?.trim();
+      const cat = document.getElementById('c_servicio').value; const catLabel = {marketing:'Marketing',secretaria:'Secretaría Administrativa',contabilidad:'Contabilidad'}[cat]||'';
+      const lvl = document.getElementById('c_nivel').value; const lvlLabel = {basico:'Básico',intermedio:'Intermedio',pro:'Pro'}[lvl]||'';
+      if (!nombre || !email || !cat || !lvl){ alert('Completá Cliente, Correo, Servicio y Nivel.'); return; }
+      const cuit = document.getElementById('c_cuit').value?.trim();
+      const dom = document.getElementById('c_domicilio').value?.trim();
+      const inicio = document.getElementById('c_inicio').value; const plazo = document.getElementById('c_plazo').value;
+      const notas = document.getElementById('c_notas').value?.trim();
+      const { mensual, extrasTotal, total, xs } = calcular();
+      const extrasList = xs.map(k=>`• ${EXTRAS[k].nombre}${EXTRAS[k].precio?` — ${FMT.format(EXTRAS[k].precio)}`:''}`).join('<br>') || '— Sin extras';
+      const features = (FEATURES[cat]?.[lvl]||[]).map(f=>`• ${f}`).join('<br>');
+      const hoy = new Date(); const f = d=>d?new Date(d).toLocaleDateString('es-AR'):'—';
+      const html = `
+        <h3>Contrato de Prestación de Servicios</h3>
+        <p><strong>Entre:</strong> <em>${nombre}</em> ${cuit?`(CUIT/DNI: ${cuit})`:''} ${dom?`— Domicilio: ${dom}`:''} — correo: ${email} (en adelante, el "Cliente").</p>
+        <p>y <strong>Maestro Servicios</strong>, en adelante, el "Proveedor"; en conjunto, las "Partes".</p>
+        <ol>
+          <li><strong>Objeto.</strong> El Proveedor brindará al Cliente el servicio de <strong>${catLabel} — Nivel ${lvlLabel}</strong>, cuyo alcance incluye:<br>${features}</li>
+          <li><strong>Extras.</strong> Se incluyen además los siguientes extras (si corresponde):<br>${extrasList}</li>
+          <li><strong>Vigencia.</strong> Inicio: <strong>${f(inicio)}</strong>. Plazo estimado: <strong>${plazo||'—'} meses</strong>.</li>
+          <li><strong>Honorarios.</strong> Referencia mensual: <strong>${FMT.format(mensual)}</strong>; extras: <strong>${FMT.format(extrasTotal)}</strong>; total referencia: <strong>${FMT.format(total)}</strong>. La cotización final podrá ajustarse según alcance definitivo.</li>
+          <li><strong>Confidencialidad.</strong> El Proveedor mantendrá confidencialidad por 24 meses tras la finalización.</li>
+          <li><strong>Propiedad intelectual.</strong> Los entregables se ceden al Cliente al acreditarse el pago. El Proveedor puede reutilizar conocimientos generales.</li>
+          <li><strong>Datos personales.</strong> Tratamiento conforme normativa aplicable y exclusivamente para ejecutar el contrato.</li>
+          <li><strong>Responsabilidad.</strong> Limitada al monto efectivamente pagado en los últimos 3 meses. Sin daños indirectos.</li>
+          <li><strong>Terminación.</strong> Preaviso de 15 días. Se facturan servicios prestados hasta la fecha.</li>
+          <li><strong>Jurisdicción.</strong> Tribunales de CABA.</li>
+        </ol>
+        <p><strong>Notas del Cliente:</strong><br>${notas?notas.replace(/\n/g,'<br>'):'—'}</p>
+        <p>En la fecha <strong>${hoy.toLocaleDateString('es-AR')}</strong>.</p>
+        <p style="margin-top:28px">______________________________<br>${nombre}</p>
+        <p style="margin-top:16px">______________________________<br>Maestro Servicios</p>
+      `;
+      mcDesc.innerHTML = html; modal.setAttribute('open','');
+    });
+    mcClose?.addEventListener('click',()=>modal.removeAttribute('open'));
+    modal?.addEventListener('click',e=>{ if(e.target===modal) modal.removeAttribute('open'); });
+
+    document.getElementById('btnCopiar')?.addEventListener('click',()=>{
+      const tmp = document.createElement('div'); tmp.innerHTML = mcDesc.innerHTML; const text = tmp.textContent || tmp.innerText || '';
+      navigator.clipboard?.writeText(text).then(()=>alert('Contrato copiado al portapapeles.'));
+    });
+    document.getElementById('btnDescargar')?.addEventListener('click',()=>{
+      const tmp = document.createElement('div'); tmp.innerHTML = mcDesc.innerHTML; const text = tmp.textContent || tmp.innerText || '';
+      const blob = new Blob([text], {type:'text/plain;charset=utf-8'});
+      const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = 'Contrato_Maestro_Servicios.txt'; a.click(); URL.revokeObjectURL(url);
+    });
+    document.getElementById('btnImprimir')?.addEventListener('click',()=>{
+      const w = window.open('', 'printWin');
+      w.document.write(`<!doctype html><html><head><title>Contrato</title><meta charset="utf-8"/><style>body{font-family:system-ui,Segoe UI,Roboto,Arial,sans-serif;line-height:1.55;margin:24px} h3{margin:0 0 10px}</style></head><body>${mcDesc.innerHTML}</body></html>`);
+      w.document.close(); w.focus(); w.print();
+    });
+
+    /* ===== Contact stub ===== */
+    const FORM_KEY='stub_leads_v5';
+    const alerta = document.getElementById('alerta');
+    const load=()=>{ try{return JSON.parse(localStorage.getItem(FORM_KEY)||'[]')}catch{return[]} };
+    const save=v=>{ try{localStorage.setItem(FORM_KEY, JSON.stringify(v))}catch{} };
+    document.getElementById('contact-form')?.addEventListener('submit', e=>{
+      e.preventDefault(); const fd = new FormData(e.currentTarget);
+      if (fd.get('company')) { alerta.className='err'; alerta.textContent='Error de validación.'; return; }
+      const needed=['email','servicio','canal','mensaje']; for(const k of needed){ if(!(fd.get(k)||'').toString().trim()){ alerta.className='err'; alerta.textContent='Completá los campos obligatorios'; return; } }
+      const lead = Object.fromEntries(fd.entries()); lead.ts = new Date().toISOString(); const cur = load(); cur.push(lead); save(cur);
+      e.currentTarget.reset(); alerta.className='ok'; alerta.textContent='¡Gracias! Guardé tu consulta. Te contactaremos pronto.';
+    });
+
+    /* ===== Scroll suave ===== */
+    document.addEventListener('click', e=>{ const a=e.target.closest('a[href^="#"]'); if(!a) return; const id=a.getAttribute('href').slice(1); const t=document.getElementById(id); if(!t) return; e.preventDefault(); const r=matchMedia('(prefers-reduced-motion: reduce)').matches; t.scrollIntoView({behavior:r?'auto':'smooth', block:'start'}); });
+
+    /* Año */
+    const y=document.getElementById('year'); if(y) y.textContent=String(new Date().getFullYear());
+  })();
+  </script>
+</body>
+</html>
