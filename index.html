@@ -324,4 +324,24 @@
     if(btn){btn.setAttribute('aria-pressed',String(pressed));$('#themeIcon').textContent=pressed?'☀️':'🌙';}
   }
   $('#themeToggle')?.addEventListener('click',()=>{
+    const current=html.getAttribute('data-theme')==='dark'?'light':'dark';
+    html.setAttribute('data-theme',current);
+    localStorage.setItem('theme',current);
+    const pressed=current==='dark';
+    const btn=$('#themeToggle');
+    if(btn){
+      btn.setAttribute('aria-pressed',String(pressed));
+      $('#themeIcon').textContent=pressed?'☀️':'🌙';
+    }
+  });
+
+  window.addEventListener('resize',setHeaderHeightVar);
+  initTheme();
+  setHeaderHeightVar();
+})();
+
+</script>
+
+</body>
+</html>
     
