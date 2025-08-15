@@ -15,19 +15,17 @@
     --header-h:72px;
   }
   [data-theme="dark"]{
-    /* Menos negro, más contraste entre capas */
-    --bg:#11141a;--surface:#161b24;--card:#1c2330;
-    --text:#e8edf5;--muted:#a7b0be;
-    --border:rgba(255,255,255,.10);
+    --bg:#121620;--surface:#151b26;--card:#1a2130;
+    --text:#e9eef7;--muted:#aab4c4;
+    --border:rgba(255,255,255,.12);
     --shadow-sm:0 6px 16px rgba(0,0,0,.45); --shadow-md:0 12px 30px rgba(0,0,0,.6);
   }
   *{box-sizing:border-box}html,body{height:100%}
-  body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Arial,sans-serif;line-height:1.55}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Arial,sans-serif;line-height:1.55;-webkit-tap-highlight-color:transparent}
   .wrap{width:min(1100px,92vw);margin-inline:auto}
   a.skip{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
   a.skip:focus{left:10px;top:10px;width:auto;height:auto;background:#000;color:#fff;padding:8px 12px;border-radius:8px;z-index:999}
 
-  /* Topbar */
   .topbar{position:sticky;top:0;z-index:50;backdrop-filter:blur(8px);
     background:color-mix(in srgb,var(--surface) 85%, transparent);border-bottom:1px solid var(--border)}
   .topbar .wrap{display:flex;align-items:center;justify-content:space-between;padding:12px 0;gap:12px}
@@ -38,60 +36,53 @@
   .theme-toggle{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:12px;border:1px solid var(--border);background:var(--card);cursor:pointer}
   .theme-toggle:focus-visible,.nav a:focus-visible,.chip:focus-visible,.tab:focus-visible,.ac-title:focus-visible,.btn:focus-visible{outline:0;box-shadow:0 0 0 4px var(--ring)}
 
-  /* Hero */
   .hero{color:#fff;text-align:center;padding:clamp(48px,8vw,96px) 0;background:
     radial-gradient(1200px 400px at 10% 0%, rgba(255,255,255,.12), transparent 60%),
     linear-gradient(135deg,#5bb0ff 0%,#7a74ff 55%,#6c63ff 100%)}
   .hero h1{margin:0 0 10px;font-weight:900;font-size:clamp(28px,3.6vw,44px)}
   .hero p{margin:0 0 22px;font-size:clamp(16px,2.1vw,18px);opacity:.95}
-  .btn{display:inline-block;background:var(--accent);color:#fff;padding:12px 22px;border-radius:12px;text-decoration:none;font-weight:900;box-shadow:var(--shadow-sm);transition:transform .18s,box-shadow .18s,filter .18s}
+  .btn{display:inline-block;background:var(--accent);color:#fff;padding:12px 22px;border-radius:12px;text-decoration:none;font-weight:900;box-shadow:var(--shadow-sm);transition:transform .18s,box-shadow .18s,filter .18s;border:0;cursor:pointer}
   .btn:hover{transform:translateY(-2px);box-shadow:var(--shadow-md);filter:brightness(1.03)}
   .btn-ghost{background:var(--card);color:var(--brand-2);border:2px solid color-mix(in srgb,var(--brand-2) 18%, transparent)}
 
-  /* Subnav chips */
   .subnav{position:sticky;top:var(--header-h);z-index:40;backdrop-filter:blur(8px);
     background:color-mix(in srgb,var(--surface) 80%, transparent);border-bottom:1px solid var(--border)}
   .subnav .wrap{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;padding:10px 0}
-  .chip{appearance:none;background:var(--card);border:1px solid var(--border);padding:8px 12px;border-radius:999px;font-weight:800;cursor:pointer;box-shadow:var(--shadow-sm);font-size:.85rem}
+  .chip{appearance:none;background:var(--card);border:1px solid var(--border);padding:10px 14px;border-radius:999px;font-weight:800;cursor:pointer;box-shadow:var(--shadow-sm);font-size:.92rem}
   .chip[aria-current="true"]{color:#fff;background:linear-gradient(135deg,var(--brand-1),var(--brand-2));border-color:transparent}
 
-  /* Acordeón */
   .acordeon{padding:clamp(24px,4.8vw,40px) 0}
   .ac-item{background:var(--card);border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow-sm);margin:0 0 14px;overflow:hidden;scroll-margin-top:calc(var(--header-h) + 12px)}
-  .ac-title{width:100%;text-align:left;background:transparent;border:0;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:14px 16px;cursor:pointer;font-weight:900;font-size:1.05rem}
+  .ac-title{width:100%;text-align:left;background:transparent;border:0;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:16px;cursor:pointer;font-weight:900;font-size:1.08rem}
   .ac-title .chev{transition:transform .25s ease}
   .ac-item.activo .ac-title .chev{transform:rotate(180deg)}
-  .ac-body{max-height:0;overflow:hidden;transition:max-height .30s ease;border-top:1px solid var(--border);padding:0 16px}
+  .ac-body{max-height:0;overflow:hidden;transition:max-height .30s ease; border-top:1px solid var(--border);padding:0 16px}
 
-  /* Tabs + tiers */
   .tabs{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
   .tab{appearance:none;border:1px solid var(--border);background:var(--card);padding:10px 14px;border-radius:12px;font-weight:900;cursor:pointer;box-shadow:var(--shadow-sm)}
   .tab[aria-selected="true"]{color:#fff;background:linear-gradient(135deg,var(--brand-1),var(--brand-2));border-color:transparent}
   .tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:16px}
   @media (max-width:900px){.tiers{grid-template-columns:1fr 1fr}}
   @media (max-width:640px){.tiers{grid-template-columns:1fr}}
-  .tier{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;box-shadow:var(--shadow-sm);display:flex;flex-direction:column;transition:transform .18s,box-shadow .18s,border-color .18s}
+  .tier{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;box-shadow:var(--shadow-sm);display:flex;flex-direction:column;gap:10px;transition:transform .18s,box-shadow .18s,border-color .18s}
   .tier:hover{transform:translateY(-3px);box-shadow:var(--shadow-md);border-color:rgba(108,99,255,.22)}
-  .tier .head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:6px}
-  .tier .price{margin:6px 0 8px;color:var(--brand-2);font-weight:900}
-  .tier ul{list-style:none;padding:0;margin:0 0 12px}
+  .tier .head{display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .tier .price{margin:2px 0 6px;color:var(--brand-2);font-weight:900}
+  .tier ul{list-style:none;padding:0;margin:0 0 4px}
   .tier ul li{display:flex;gap:8px;margin:6px 0}
   .tier ul li::before{content:"✓";color:var(--brand-2);font-weight:900}
   .price-note{margin:6px 0 12px;color:var(--muted)}
 
-  /* Extras */
   .extras-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:12px 0 16px}
   @media (max-width:900px){.extras-grid{grid-template-columns:1fr 1fr}}
   @media (max-width:640px){.extras-grid{grid-template-columns:1fr}}
   .extra{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px;box-shadow:var(--shadow-sm);display:flex;gap:12px;align-items:flex-start;justify-content:space-between}
 
-  /* Formulario solicitud */
   .request-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}
   @media (max-width:800px){.request-grid{grid-template-columns:1fr}}
   .req-list{margin:12px 0 20px;display:grid;gap:10px}
   .req-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px;box-shadow:var(--shadow-sm)}
 
-  /* Contrato */
   .contract-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}
   @media (max-width:800px){.contract-grid{grid-template-columns:1fr}}
   .field{display:flex;flex-direction:column}
@@ -103,7 +94,6 @@
   .row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
   .hint{color:var(--muted);font-size:.9rem}
 
-  /* Modal */
   .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.45);padding:20px}
   .modal[open]{display:flex}
   .modal-card{background:var(--card);color:var(--text);width:min(900px,96vw);max-height:90vh;overflow:auto;border-radius:16px;box-shadow:var(--shadow-md)}
@@ -151,7 +141,6 @@
 <main id="contenido" class="wrap">
   <div class="acordeon" id="acordeon" role="tablist" aria-label="Secciones principales">
 
-    <!-- PLANES -->
     <section class="ac-item activo" id="ac-planes">
       <button class="ac-title" id="ac-planes-title" type="button" role="tab" aria-expanded="true" aria-controls="planes">
         <span>Planes por niveles</span><span class="chev">▾</span>
@@ -167,7 +156,6 @@
       </div>
     </section>
 
-    <!-- EXTRAS -->
     <section class="ac-item" id="ac-extras">
       <button class="ac-title" id="ac-extras-title" type="button" role="tab" aria-expanded="false" aria-controls="extras">
         <span>Servicios extras</span><span class="chev">▾</span>
@@ -178,7 +166,6 @@
       </div>
     </section>
 
-    <!-- SOLICITUD -->
     <section class="ac-item" id="ac-solicitud">
       <button class="ac-title" id="ac-solicitud-title" type="button" role="tab" aria-expanded="false" aria-controls="solicitud">
         <span>Solicitud de servicios</span><span class="chev">▾</span>
@@ -207,7 +194,6 @@
       </div>
     </section>
 
-    <!-- CONTRATO -->
     <section class="ac-item" id="ac-contrato">
       <button class="ac-title" id="ac-contrato-title" type="button" role="tab" aria-expanded="false" aria-controls="contrato">
         <span>Contrato de prestación de servicios</span><span class="chev">▾</span>
@@ -260,10 +246,9 @@
   </div>
 </main>
 
-<!-- MODAL -->
 <div class="modal" id="modalContrato" role="dialog" aria-modal="true" aria-labelledby="mcTitle" aria-describedby="mcDesc">
   <div class="modal-card">
-    <div class="modal-head"><strong id="mcTitle">Contrato de prestación de servicios</strong><button class="btn btn-ghost" id="mcClose" type="button">Cerrar ✕</button></div>
+    <div class="modal-head"><strong id="mcTitle">Contrato de prestación de servicios</strong><button class="btn btn-ghost" id="mcClose" type="button" aria-label="Cerrar">Cerrar ✕</button></div>
     <div class="modal-body"><div id="mcDesc" class="contract-text"></div></div>
     <div class="modal-actions">
       <button class="btn btn-ghost" id="btnCopiar" type="button">Copiar</button>
@@ -277,71 +262,54 @@
 
 <script>
 (function(){
-  'use strict';
-  const $=s=>document.querySelector(s), $$=s=>document.querySelectorAll(s), html=document.documentElement;
+'use strict';
+const $=s=>document.querySelector(s), $$=s=>document.querySelectorAll(s), html=document.documentElement;
 
-  /* ---------- DATA ---------- */
-  const DATA={
-    marketing:[
-      {id:'basico',name:'Básico',price:90000,features:['1 red social','4 posts/mes','Informe básico']},
-      {id:'intermedio',name:'Intermedio',price:180000,features:['2 redes','8 posts/mes','Ads iniciales','Informe avanzado']},
-      {id:'pro',name:'Pro',price:320000,features:['3 redes','12 posts/mes','Gestión de ads','Automatizaciones']}
-    ],
-    secretaria:[
-      {id:'basico',name:'Básico',price:70000,features:['Agenda/recordatorios','Gestión de emails básica']},
-      {id:'intermedio',name:'Intermedio',price:120000,features:['Atención WhatsApp','Plantillas y seguimiento']},
-      {id:'pro',name:'Pro',price:220000,features:['Backoffice completo','KPIs y tableros']}
-    ],
-    contabilidad:[
-      {id:'basico',name:'Básico',price:80000,features:['Ingreso de comprobantes','Libros básicos']},
-      {id:'intermedio',name:'Intermedio',price:150000,features:['Liquidación simple','Reportes mensuales']},
-      {id:'pro',name:'Pro',price:280000,features:['Análisis fiscal','Proyecciones y cashflow']}
-    ],
-  };
-  const EXTRAS=[
-    {id:'landing',name:'Landing page',price:150000},
-    {id:'branding',name:'Branding básico',price:90000},
-    {id:'seo',name:'SEO inicial',price:80000},
-    {id:'fotografia',name:'Pack de fotos',price:60000},
-    {id:'ads',name:'Setup de Ads',price:70000},
-    {id:'crm',name:'Mini CRM/Automatización',price:110000},
-  ];
-  const currency=new Intl.NumberFormat('es-AR',{style:'currency',currency:'ARS',maximumFractionDigits:0});
-  const formatARS=v=>currency.format(v);
+/* DATA */
+const DATA={
+  marketing:[
+    {id:'basico',name:'Básico',price:90000,features:['1 red social','4 posts/mes','Informe básico']},
+    {id:'intermedio',name:'Intermedio',price:180000,features:['2 redes','8 posts/mes','Ads iniciales','Informe avanzado']},
+    {id:'pro',name:'Pro',price:320000,features:['3 redes','12 posts/mes','Gestión de ads','Automatizaciones']}
+  ],
+  secretaria:[
+    {id:'basico',name:'Básico',price:70000,features:['Agenda/recordatorios','Gestión de emails básica']},
+    {id:'intermedio',name:'Intermedio',price:120000,features:['Atención WhatsApp','Plantillas y seguimiento']},
+    {id:'pro',name:'Pro',price:220000,features:['Backoffice completo','KPIs y tableros']}
+  ],
+  contabilidad:[
+    {id:'basico',name:'Básico',price:80000,features:['Ingreso de comprobantes','Libros básicos']},
+    {id:'intermedio',name:'Intermedio',price:150000,features:['Liquidación simple','Reportes mensuales']},
+    {id:'pro',name:'Pro',price:280000,features:['Análisis fiscal','Proyecciones y cashflow']}
+  ],
+};
+const EXTRAS=[
+  {id:'landing',name:'Landing page',price:150000},
+  {id:'branding',name:'Branding básico',price:90000},
+  {id:'seo',name:'SEO inicial',price:80000},
+  {id:'fotografia',name:'Pack de fotos',price:60000},
+  {id:'ads',name:'Setup de Ads',price:70000},
+  {id:'crm',name:'Mini CRM/Automatización',price:110000},
+];
+const currency=new Intl.NumberFormat('es-AR',{style:'currency',currency:'ARS',maximumFractionDigits:0});
+const ARS=v=>currency.format(v);
 
-  /* ---------- THEME ---------- */
-  function setHeaderHeightVar(){
-    const h=$('#topbar')?.offsetHeight||72;
-    html.style.setProperty('--header-h',h+'px');
-  }
-  function initTheme(){
-    const stored=localStorage.getItem('theme');
-    const prefers=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
-    const theme=stored||prefers;
-    html.setAttribute('data-theme',theme);
-    const pressed=theme==='dark';
-    const btn=$('#themeToggle');
-    if(btn){btn.setAttribute('aria-pressed',String(pressed));$('#themeIcon').textContent=pressed?'☀️':'🌙';}
-  }
-  $('#themeToggle')?.addEventListener('click',()=>{
-    const current=html.getAttribute('data-theme')==='dark'?'light':'dark';
-    html.setAttribute('data-theme',current);
-    localStorage.setItem('theme',current);
-    const pressed=current==='dark';
-    const btn=$('#themeToggle');
-    if(btn){
-      btn.setAttribute('aria-pressed',String(pressed));
-      $('#themeIcon').textContent=pressed?'☀️':'🌙';
-    }
-  });
+/* THEME + HEADER */
+function setHeaderHeightVar(){ const h=$('#topbar')?.offsetHeight||72; html.style.setProperty('--header-h',h+'px'); }
+function initTheme(){
+  const stored=localStorage.getItem('theme');
+  const prefers=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
+  const theme=stored||prefers; html.setAttribute('data-theme',theme);
+  const dark=theme==='dark'; const btn=$('#themeToggle');
+  if(btn){btn.setAttribute('aria-pressed',String(dark)); $('#themeIcon').textContent=dark?'☀️':'🌙';}
+}
+$('#themeToggle')?.addEventListener('click',()=>{
+  const now=html.getAttribute('data-theme')==='dark'?'light':'dark';
+  html.setAttribute('data-theme',now); localStorage.setItem('theme',now);
+  const dark=now==='dark'; $('#themeToggle').setAttribute('aria-pressed',String(dark)); $('#themeIcon').textContent=dark?'☀️':'🌙';
+});
 
-  window.addEventListener('resize',setHeaderHeightVar);
-  initTheme();
-  setHeaderHeightVar();
-})();
-
-</script>
-
-</body>
-</html>
-    
+/* ACORDEÓN */
+const items=[...$$('.ac-item')];
+function setExpanded(item, expand){
+  const body=item.querySele
