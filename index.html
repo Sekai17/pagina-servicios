@@ -324,4 +324,94 @@
     if(btn){btn.setAttribute('aria-pressed',String(pressed));$('#themeIcon').textContent=pressed?'☀️':'🌙';}
   }
   $('#themeToggle')?.addEventListener('click',()=>{
+    const current=html.getAttribute('data-theme')==='dark'?'light':'dark';
+    html.setAttribute('data-theme',current);
+    localStorage.setItem('theme',current);
+    const pressed=current==='dark';
+    const btn=$('#themeToggle');
+    if(btn){
+      btn.setAttribute('aria-pressed',String(pressed));
+      $('#themeIcon').textContent=pressed?'☀️':'🌙';
+    }
+  });
+
+  /* ---------- ACORDEÓN ---------- */
+  function initAccordion(){
+    const items=$$('.ac-item');
+    items.forEach(it=>{
+      const btn=it.querySelector('.ac-title');
+      const body=it.querySelector('.ac-body');
+      const open=it.classList.contains('activo');
+      btn.setAttribute('aria-expanded',String(open));
+      body.style.maxHeight=open?body.scrollHeight+'px':'0';
+      btn.addEventListener('click',()=>{
+        const isOpen=it.classList.contains('activo');
+        items.forEach(o=>{
+          if(o!==it){
+            o.classList.remove('activo');
+            o.querySelector('.ac-title').setAttribute('aria-expanded','false');
+            o.querySelector('.ac-body').style.maxHeight='0';
+          }
+        });
+        it.classList.toggle('activo');
+        btn.setAttribute('aria-expanded',String(!isOpen));
+        body.style.maxHeight=!isOpen?body.scrollHeight+'px':'0';
+      });
+    });
+  }
+
+  /* ---------- PLANES ---------- */
+  function renderTiers(cat){
+    const cont=$('#tiers');
+    if(!cont||!DATA[cat])return;
+    cont.innerHTML='';
+    DATA[cat].forEach(tier=>{
+      const feats=tier.features.map(f=>`<li>${f}</li>`).join('');
+      cont.innerHTML+=`<div class="tier"><div class="head"><strong>${tier.name}</strong><span class="price">${formatARS(tier.price)}</span></div><ul>${feats}</ul></div>`;
+    });
+  }
+  function initTabs(){
+    const tabs=$$('.tab');
+    tabs.forEach(tab=>{
+      tab.addEventListener('click',()=>{
+        tabs.forEach(t=>t.setAttribute('aria-selected','false'));
+        tab.setAttribute('aria-selected','true');
+        renderTiers(tab.dataset.cat);
+      });
+    });
+    const first=tabs[0];
+    if(first)renderTiers(first.dataset.cat);
+  }
+
+  /* ---------- EXTRAS ---------- */
+  function renderExtras(){
+    const grid=$('#extrasGrid');
+    if(grid){
+      grid.innerHTML='';
+      EXTRAS.forEach(ext=>{
+        grid.innerHTML+=`<div class="extra"><span>${ext.name}</span><span>${formatARS(ext.price)}</span></div>`;
+      });
+    }
+    const checks=$('#extrasChecks');
+    if(checks){
+      checks.innerHTML='';
+      EXTRAS.forEach(ext=>{
+        checks.innerHTML+=`<label><input type="checkbox" value="${ext.id}" data-price="${ext.price}"> ${ext.name} (${formatARS(ext.price)})</label>`;
+      });
+    }
+  }
+
+  window.addEventListener('resize',setHeaderHeightVar);
+  initTheme();
+  setHeaderHeightVar();
+  initAccordion();
+  initTabs();
+  renderExtras();
+  $('#year').textContent=new Date().getFullYear();
+})();
+
+</script>
+
+</body>
+</html>
     
