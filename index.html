@@ -1,172 +1,215 @@
-<!doctype html><html lang="es"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>LINZI — Más ventas y menos trámites</title>
-<meta name="description" content="Marketing, Secretaría Adm., Contabilidad y Web Simple integrados para pymes. Demo SPA 1 archivo, accesible y veloz. Respondemos en 24h."/>
-<meta name="robots" content="noindex"/>
-<meta property="og:title" content="LINZI — Más ventas y menos trámites"/>
-<meta property="og:description" content="Planes de prueba y contacto instantáneo. Resolvemos en 2 semanas."/>
-<meta property="og:type" content="website"/>
-<meta property="og:url" content="https://linzi.demo"/>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RPG de Texto — Santuario</title>
 <style>
-:root{--p:#4F46E5;--s:#06B6D4;--a:#F59E0B;--bg:#fff;--tx:#111;--mu:#666;--sf:#f6f7f9;--bd:#e5e7eb;--r:14px;--rs:10px;--p2:#1E40AF;--s2:#0891B2;--a2:#D97706;--ok:#16a34a;--err:#dc2626}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:var(--tx);background:var(--bg);line-height:1.55}
-a{color:var(--p);text-decoration:none}a:hover{text-decoration:underline}
-.container{max-width:1100px;margin:auto;padding:clamp(16px,2vw,24px)}
-.header{border-bottom:1px solid var(--bd);background:linear-gradient(90deg,var(--bg),#fafcff)}
-.hdr{display:flex;align-items:center;justify-content:space-between;gap:12px}
-.brand{display:flex;align-items:center;gap:10px}.logo{font-weight:800}.slogan{color:var(--mu);font-size:.95rem}
-.t{display:inline-flex;border:1px solid var(--bd);background:#fff;border-radius:10px;padding:10px 12px}
-.nav{display:none}.nav.open{display:block}.nav ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
-.nav a{display:block;padding:10px 12px;border-radius:10px}.nav a[aria-current="page"],.nav a:hover{background:var(--sf);text-decoration:none}
-.hctas{display:flex;gap:8px;margin-top:10px}
-@media (min-width:900px){.nav{display:block}.nav ul{flex-direction:row;gap:2px}.hctas{margin-top:0}.t{display:none}}
-.ntc{background:var(--sf);border-top:1px solid var(--bd);padding:8px 16px;text-align:center;font-size:.95rem}
-.btn{display:inline-block;background:var(--p);color:#fff;padding:12px 16px;border-radius:var(--rs);border:1px solid var(--p);font-weight:600;transition:transform .12s ease,filter .12s}
-.btn:hover{filter:brightness(.95);text-decoration:none;transform:translateY(-1px)}
-.btn.o{background:#fff;color:var(--p)}.btn.g{background:transparent;color:var(--p);border-color:var(--bd)}.btn.s{padding:8px 12px;font-size:.95rem}
-.stk{display:flex;gap:12px;flex-wrap:wrap}.grid{display:grid;gap:16px}.c4{grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}.c3{grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
-.card{background:#fff;border:1px solid var(--bd);border-radius:var(--r);padding:16px}
-.hero{display:grid;gap:16px;align-items:center}.inner{background:linear-gradient(180deg,#fff,rgba(79,70,229,.06));border:1px solid var(--bd);border-radius:var(--r);padding:24px}
-.logos{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.lph{height:48px;background:linear-gradient(90deg,rgba(6,182,212,.1),rgba(245,158,11,.1));border:1px dashed var(--bd);border-radius:10px}
-.tw{overflow:auto;border:1px solid var(--bd);border-radius:var(--r)}.tw table{width:100%;border-collapse:collapse;min-width:560px;background:#fff}.tw th,.tw td{border-bottom:1px solid var(--bd);padding:12px;text-align:left}.tw thead th{background:linear-gradient(90deg,rgba(79,70,229,.08),rgba(6,182,212,.08))}.tw caption{padding:10px;font-weight:600;text-align:left}
-.form{display:grid;gap:12px;max-width:560px}.fld{display:grid;gap:6px}.cb{grid-template-columns:auto 1fr;align-items:center;gap:8px}
-input,textarea{padding:12px;border:1px solid var(--bd);border-radius:10px;font:inherit}
-input:focus,textarea:focus,.t:focus,.btn:focus{outline:3px solid var(--a);outline-offset:2px}
-.muted{color:var(--mu)}.foot{margin-top:40px;border-top:1px solid var(--bd);background:#fff}
-.fgrid{display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}.cpy{text-align:center;color:var(--mu)}
-.wa{position:fixed;right:16px;bottom:16px;display:inline-flex;align-items:center;justify-content:center;width:56px;height:56px;border-radius:50%;background:var(--a);color:#fff;font-weight:800;border:2px solid #fff;box-shadow:0 6px 20px rgba(0,0,0,.15)}@media (min-width:900px){.wa{display:none}}
-.sk{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}.sk:focus{left:16px;top:16px;width:auto;height:auto;background:#000;color:#fff;padding:8px 10px;border-radius:8px;z-index:1000}
-.badge{display:inline-block;padding:4px 8px;border-radius:999px;background:rgba(79,70,229,.1);color:var(--p);font-weight:600;font-size:.8rem}
-.accent{background:linear-gradient(90deg,rgba(79,70,229,.08),rgba(6,182,212,.08));border:1px solid var(--bd);border-radius:12px;padding:12px}
-/* Recomendado en tablas */
-.reco{box-shadow:0 0 0 2px var(--p) inset;background:linear-gradient(90deg,rgba(79,70,229,.06),transparent)}.reco .badge{background:var(--p);color:#fff}
-/* Toasts */
-.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:24px;display:none;background:#fff;color:#111;border:1px solid var(--bd);border-radius:12px;padding:12px 16px;box-shadow:0 8px 30px rgba(0,0,0,.15);z-index:999}
-.toast.show{display:block}
-/* Modal espera extras */
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.4);display:none;align-items:center;justify-content:center;padding:16px;z-index:998}
-.modal.open{display:flex}.modal .box{background:#fff;border-radius:16px;border:1px solid var(--bd);max-width:560px;width:100%;padding:20px}
+:root{--bg:#111;--fg:#eee;--accent:#4ade80;font-family:ui-monospace,monospace}
+[data-tema="claro"]{--bg:#fff;--fg:#111;--accent:#2563eb}
+[data-tema="oscuro"]{--bg:#111;--fg:#eee;--accent:#f59e0b}
+body{background:var(--bg);color:var(--fg);margin:0;display:flex;justify-content:center}
+main{max-width:800px;width:100%;padding:1rem;display:flex;flex-direction:column;height:100vh}
+#log{flex:1;overflow-y:auto;background:#0002;padding:1rem;border:1px solid var(--fg);margin-bottom:.5rem;white-space:pre-line}
+#estado{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:.5rem;font-size:.9rem}
+#estado span{padding:.2rem .4rem;border:1px solid var(--fg);border-radius:4px}
+form{display:flex;gap:.5rem}
+label{align-self:center}
+input[type=text]{flex:1;background:var(--bg);color:var(--fg);border:1px solid var(--fg);padding:.5rem}
+button{background:var(--accent);color:var(--bg);border:none;padding:.5rem .8rem;font-weight:bold;cursor:pointer}
+button:focus,input:focus{outline:2px dashed var(--accent);outline-offset:2px}
+footer{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.5rem}
+@media(prefers-color-scheme:dark){:root:not([data-tema]){--bg:#111;--fg:#eee;--accent:#f59e0b}}
+@media(prefers-color-scheme:light){:root:not([data-tema]){--bg:#fff;--fg:#111;--accent:#2563eb}}
 </style>
 </head>
 <body>
-<a class="sk" href="#app">Ir al contenido</a>
-<header class="header"><div class="container hdr"><div class="brand"><a class="logo" href="#/" aria-label="Inicio" data-nav>⟪LINZI⟫</a><span class="slogan">Más ventas y menos trámites</span></div><button class="t" aria-expanded="false" aria-controls="nav" aria-label="Abrir menú">☰</button><nav id="nav" class="nav" aria-label="Principal"><ul>
-<li><a data-nav href="#/">Inicio</a></li>
-<li><a data-nav href="#/servicios">Servicios</a></li>
-<li><a data-nav href="#/servicios#planes">Ver planes</a></li>
-<li><a data-nav href="#/extras">Extras</a></li>
-<li><a data-nav href="#/contacto">Contacto</a></li>
-<li><a data-nav href="#/legal">Legal</a></li>
-</ul><div class="hctas"><a class="btn" data-nav href="#/contacto">Pedir presupuesto</a><a class="btn g" data-nav href="#/servicios#planes">Ver planes</a></div></nav></div><div class="ntc">Precios de prueba sujetos a cambio.</div></header>
-<main id="app" class="container"></main>
-<footer class="foot"><div class="container fgrid"><div><h3>LINZI</h3><p>Av. Siempre Viva 742, CABA, Argentina</p><p><a href="mailto:hola@linzi.demo">hola@linzi.demo</a> · <a href="tel:+5491122334455">+54 9 11 2233-4455</a></p></div><div><h4>Redes</h4><ul class="social"><li><a href="#">Instagram</a></li><li><a href="#">Facebook</a></li><li><a href="#">LinkedIn</a></li></ul></div><div><strong>Precios de prueba sujetos a cambio.</strong></div></div><p class="cpy">© <span id="year"></span> LINZI</p></footer>
-<a class="wa" id="waFloat" href="https://wa.me/5491122334455" target="_blank" rel="noopener" aria-label="WhatsApp">WA</a>
-<noscript>Para ver esta demo, activá JavaScript. ¡Gracias!</noscript>
-<div id="toast" class="toast" role="status" aria-live="polite"></div>
-<div id="waitlist" class="modal" aria-hidden="true"><div class="box"><h3>Lista de espera</h3><p>Dejanos tus datos y te avisamos cuando el extra esté disponible.</p><form class="form" id="wlForm" data-simulate="true"><input type="hidden" name="interes" id="wlInteres"/><div class="fld"><label for="wln">Nombre</label><input id="wln" name="nombre" required/></div><div class="fld"><label for="wle">Email</label><input id="wle" name="email" type="email" required/></div><div class="fld cb"><input id="wlc" type="checkbox" required/><label for="wlc">Acepto privacidad</label></div><div class="stk"><button class="btn" type="submit" id="wlSend">Avisarme</button><button class="btn g" type="button" id="wlClose">Cerrar</button></div></form></div></div>
-<script type="text/javascript">
-(function(){
-  var $=function(s){return document.querySelector(s)}, $$=function(s){return document.querySelectorAll(s)};
-  var A=$('#app'),N=$('#nav'),T=document.querySelector('.t'),Y=$('#year'),Toast=$('#toast'),WL=$('#waitlist');
-  if(Y){Y.textContent=new Date().getFullYear()}
-  if(T&&N){T.addEventListener('click',function(){var open=N.classList.toggle('open');T.setAttribute('aria-expanded',String(open))})}
-  document.addEventListener('click',function(e){var a=e.target.closest('[data-nav]');if(a){N.classList.remove('open')}});
-  function meta(t,d,u){document.title=t;var m=document.querySelector('meta[name="description"]');if(m)m.setAttribute('content',d);var ogt=document.querySelector('meta[property="og:title"]');if(ogt)ogt.setAttribute('content',t);var ogd=document.querySelector('meta[property="og:description"]');if(ogd)ogd.setAttribute('content',d);var ogu=document.querySelector('meta[property="og:url"]');if(ogu)ogu.setAttribute('content',u||location.href)}
-  function addLD(obj,id){var p=document.getElementById(id);if(p) p.remove();var s=document.createElement('script');s.type='application/ld+json';s.id=id;s.text=JSON.stringify(obj);document.head.appendChild(s)}
-  function ph(){return '<svg class="ph" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="g1" x1="0" x2="1"><stop offset="0" stop-color="var(--p)" stop-opacity=".15"/><stop offset="1" stop-color="var(--s)" stop-opacity=".15"/></linearGradient></defs><rect width="400" height="260" fill="url(#g1)"/><circle cx="80" cy="80" r="40" fill="var(--p)" opacity=".12"/><rect x="140" y="60" width="220" height="24" rx="6" fill="var(--s)" opacity=".18"/><rect x="140" y="100" width="190" height="16" rx="5" fill="var(--a)" opacity=".18"/></svg>'}
-  function navActive(r){$$('nav a[data-nav]').forEach(function(a){var h=a.getAttribute('href').replace('#','');if(h===r){a.setAttribute('aria-current','page')}else{a.removeAttribute('aria-current')}})}
-  function go(h){location.hash=h}
-  function track(ev,meta){try{if(window.plausible){window.plausible(ev,{props:meta||{}})}console.log('TRACK',ev,meta||{})}catch(_){}
-  }
-  function toast(msg,ok){Toast.textContent=msg;Toast.style.borderColor=ok?'#c6f6d5':'#fecaca';Toast.classList.add('show');setTimeout(function(){Toast.classList.remove('show')},2200)}
-  function table(rows,recoIndex){var th=rows.head.map(function(h,i){var b=(i===recoIndex?' <span class="badge">Recomendado</span>':'');return '<th'+(i===recoIndex?' class="reco"':'')+'>'+h+b+'</th>'}).join('');var body=rows.body.map(function(r){return '<tr>'+r.map(function(c,i){var td=(i?'<td'+(i===recoIndex?' class="reco"':'')+'>'+c+'</td>':'<th scope="row">'+c+'</th>');return td}).join('')+'</tr>'}).join('');return '<div class="tw"><table><caption>Comparativa</caption><thead><tr>'+th+'</tr></thead><tbody>'+body+'</tbody></table></div>'}
-  function waLink(s,p){var base='https://wa.me/5491122334455';var t='Hola, quiero info sobre '+(s||'Servicios')+' — Plan '+(p||'Consulta')+'.';var url=base+'?text='+encodeURIComponent(t)+'&utm_source=web&utm_medium=cta&utm_campaign=whatsapp';return url}
-  function setFloatWA(){var pref=sessionStorage.getItem('pref');var s=null,p=null;if(pref){var m=/contratar (.*) — Plan (.*)\./i.exec(pref);if(m){s=m[1];p=m[2]}}$('#waFloat').setAttribute('href',waLink(s,p))}
-  function home(){meta('LINZI — Más ventas y menos trámites','Marketing, Secretaría Adm. y Contabilidad integrados para pymes en AR. Resolvemos en 2 semanas.','https://linzi.demo');navActive('/');setFloatWA();
-    addLD({"@context":"https://schema.org","@type":"Organization","name":"LINZI","url":"https://linzi.demo","email":"hola@linzi.demo","telephone":"+54 9 11 2233-4455","address":{"@type":"PostalAddress","streetAddress":"Av. Siempre Viva 742, CABA, Argentina"}},'ld-org');
-    return '<section class="hero"><div><h1>Más ventas y menos trámites</h1><p class="accent">Marketing, Secretaría Adm. y Contabilidad integrados para pymes en AR. <strong>Resolvemos en 2 semanas.</strong></p><div class="stk"><a class="btn" data-nav href="#/contacto">Pedir presupuesto</a><a class="btn o" data-nav href="#/servicios#planes">Ver planes</a></div></div><div aria-hidden="true">'+ph()+'</div></section><section><h2>Nuestras 4 líneas de servicio</h2><div class="grid c4">'+
-      ['Marketing','Secretaría Administrativa','Contabilidad','Programación Web Simple'].map(function(svc,i){var slug=['marketing','secretaria-adm','contabilidad','programacion-web-simple'][i];var bullets=[["Calendario editorial","Gestión 1–3 redes","Reportes mensuales"],["Agenda y correos","Proveedores","SOPs"],["Impuestos","Sueldos","Proyecciones"],["HTML semántico","Mobile‑first","SEO on‑page"]][i].map(function(b){return '<li>'+b+'</li>'}).join('');
-      return '<article class="card"><h3>'+svc+'</h3><ul style="margin:0 0 12px 18px">'+bullets+'</ul><div class="stk"><a class="btn s" data-nav href="#/servicios/'+slug+'">Ver detalle</a><button class="btn g s" data-contratar data-s="'+svc+'" data-p="Consulta">Contratar</button></div></article>'}).join('')+
-    '</div></section><section><h2>Confían en LINZI</h2><div class="logos"><span class="lph" aria-label="Cliente A"></span><span class="lph" aria-label="Cliente B"></span><span class="lph" aria-label="Cliente C"></span><span class="lph" aria-label="Cliente D"></span></div></section><section><h2>Testimonios</h2><div class="grid c3"><blockquote class="card">“Ordenaron nuestra operación en dos semanas.” — <cite>A. Pérez</cite></blockquote><blockquote class="card">“Plan de marketing con resultados.” — <cite>L. Gómez</cite></blockquote><blockquote class="card">“La landing cargó rápido y convirtió mejor.” — <cite>M. Ruiz</cite></blockquote></div></section>'}
-  function serv(){meta('Servicios — LINZI','Listado de servicios con enlaces y planes de prueba.','https://linzi.demo/servicios');navActive('/servicios');setFloatWA();return '<section><h1>Servicios</h1><p>Elegí una línea y accedé a los planes.</p></section><section class="grid c4">'+
-      [
-        {t:'Marketing',d:'8/16/24+ piezas, 1–3 redes, pauta (no incluida), reportes.',slug:'marketing'},
-        {t:'Secretaría Administrativa',d:'2h/4h/6h día; agenda, correos, proveedores, SOPs.',slug:'secretaria-adm'},
-        {t:'Contabilidad',d:'Monotributo→PyME+; sueldos y planificación fiscal.',slug:'contabilidad'},
-        {t:'Programación Web Simple',d:'One‑Page / Landing Pro / Mini‑Sitio; SEO on‑page y analytics.',slug:'programacion-web-simple'}
-      ].map(function(x){return '<article class="card"><h2>'+x.t+'</h2><p>'+x.d+'</p><div class="stk"><a class="btn s" data-nav href="#/servicios/'+x.slug+'">Ver detalle</a><a class="btn g s" data-nav href="#/servicios/'+x.slug+'#planes">Ver planes</a><button class="btn s" data-contratar data-s="'+x.t+'" data-p="Pro">Contratar</button></div></article>'}).join('')+
-    '</section>'}
-  function mk(){meta('Marketing — LINZI','Piezas, redes y reportes con foco en ROI.','https://linzi.demo/servicios/marketing');navActive('/servicios');setFloatWA();
-    addLD({"@context":"https://schema.org","@type":"Service","name":"Marketing","provider":{"@type":"Organization","name":"LINZI"}},'ld-svc');
-    addLD({"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"¿Incluye pauta?","acceptedAnswer":{"@type":"Answer","text":"No, se contrata aparte."}},{"@type":"Question","name":"¿Calendario?","acceptedAnswer":{"@type":"Answer","text":"Mensual, con revisiones semanales."}}]},'ld-faq');
-    return '<section class="hero inner"><h1>Marketing con foco en conversión</h1><p>Planificación simple, ejecución consistente y reportes accionables.</p><div class="stk"><button class="btn" data-contratar data-s="Marketing" data-p="Pro">Contratar</button><a class="btn o" data-nav href="#/extras">Ver extras</a></div></section><section><h2>Qué incluye</h2><ul><li>Calendario editorial y guía de estilo</li><li>Producción de piezas (8/16/24+)</li><li>Gestión de 1–3 redes</li><li><strong>Pauta no incluida</strong></li><li>Reporte mensual con KPIs</li></ul></section><section id="planes"><h2>Planes (precios de prueba)</h2>'+table({head:['Plan','Básico','Pro','Full'],body:[['Precio','Desde ARS$ 120.000','Desde ARS$ 220.000','Desde ARS$ 340.000'],['Piezas/mes','8','16','24+'],['Redes','1','2','3'],['Reportes','Mensual','Mensual','Quincenal']]},2)+'<div class="stk"><button class="btn" data-contratar data-s="Marketing" data-p="Básico">Básico</button><button class="btn" data-contratar data-s="Marketing" data-p="Pro">Pro</button><button class="btn" data-contratar data-s="Marketing" data-p="Full">Full</button></div><p class="muted">Precios de <strong>prueba</strong>, pueden cambiar sin previo aviso.</p></section><section><h2>FAQs</h2><details><summary>¿Incluye pauta?</summary><p>No, se contrata aparte.</p></details><details><summary>¿Calendario?</summary><p>Mensual, con revisiones semanales.</p></details><details><summary>¿Editan video?</summary><p>Básico; avanzado como extra.</p></details><details><summary>¿Propiedad del contenido?</summary><p>Del cliente, una vez abonado.</p></details><details><summary>¿Plazo mínimo?</summary><p>1 mes de prueba.</p></details></section>'}
-  function sa(){meta('Secretaría Adm — LINZI','Operativa ordenada por horas por día.','https://linzi.demo/servicios/secretaria-adm');navActive('/servicios');setFloatWA();
-    addLD({"@context":"https://schema.org","@type":"Service","name":"Secretaría Administrativa","provider":{"@type":"Organization","name":"LINZI"}},'ld-svc');
-    return '<section class="hero inner"><h1>Secretaría Administrativa virtual</h1><p>Delegá operativos diarios sin perder control.</p><div class="stk"><button class="btn" data-contratar data-s="Secretaría Adm" data-p="Pro">Contratar</button><a class="btn o" data-nav href="#/extras">Ver extras</a></div></section><section><h2>Qué incluye</h2><ul><li>Agenda y correos</li><li>Proveedores</li><li>SOPs</li><li>Reportes</li></ul></section><section id="planes"><h2>Planes (precios de prueba)</h2>'+table({head:['Plan','Básico','Pro','Full'],body:[['Precio','Desde ARS$ 90.000','Desde ARS$ 160.000','Desde ARS$ 220.000'],['Horas/día','2h','4h','6h'],['Reportes','Semanal','Semanal','Diario']]},2)+'<div class="stk"><button class="btn" data-contratar data-s="Secretaría Adm" data-p="Básico">Básico</button><button class="btn" data-contratar data-s="Secretaría Adm" data-p="Pro">Pro</button><button class="btn" data-contratar data-s="Secretaría Adm" data-p="Full">Full</button></div><p class="muted">Precios de <strong>prueba</strong>, pueden cambiar sin previo aviso.</p></section><section><h2>FAQs</h2><details><summary>¿Horario fijo?</summary><p>Bloques acordados.</p></details><details><summary>¿Atención telefónica?</summary><p>Disponible como extra.</p></details><details><summary>¿SOPs incluidos?</summary><p>Sí.</p></details><details><summary>¿Herramientas?</summary><p>Nos adaptamos.</p></details></section>'}
-  function ctb(){meta('Contabilidad — LINZI','De Monotributo a PyME+. Sueldos y planificación.','https://linzi.demo/servicios/contabilidad');navActive('/servicios');setFloatWA();
-    addLD({"@context":"https://schema.org","@type":"Service","name":"Contabilidad","provider":{"@type":"Organization","name":"LINZI"}},'ld-svc');
-    return '<section class="hero inner"><h1>Contabilidad clara y previsible</h1><p>Orden fiscal, sueldos y proyecciones.</p><div class="stk"><button class="btn" data-contratar data-s="Contabilidad" data-p="Full">Contratar</button><a class="btn o" data-nav href="#/extras">Ver extras</a></div></section><section><h2>Qué incluye</h2><ul><li>Alta y gestión impositiva</li><li>Sueldos y cargas</li><li>Proyecciones y planificación</li><li>Inspecciones básicas</li></ul></section><section id="planes"><h2>Planes (precios de prueba)</h2>'+table({head:['Plan','Básico','Pro','Full'],body:[['Precio','Desde ARS$ 70.000','Desde ARS$ 150.000','Desde ARS$ 260.000'],['Tipo contribuyente','Mono','RI','PyME+'],['Sueldos','—','Hasta 5','Hasta 15'],['Proyecciones','Trimestral','Mensual','Mensual + Escenarios']]},2)+'<div class="stk"><button class="btn" data-contratar data-s="Contabilidad" data-p="Básico">Básico</button><button class="btn" data-contratar data-s="Contabilidad" data-p="Pro">Pro</button><button class="btn" data-contratar data-s="Contabilidad" data-p="Full">Full</button></div><p class="muted">Precios de <strong>prueba</strong>, pueden cambiar sin previo aviso.</p></section><section><h2>FAQs</h2><details><summary>¿Trabajan con AFIP?</summary><p>Sí.</p></details><details><summary>¿Incluye auditoría?</summary><p>No.</p></details><details><summary>¿Asesoría fiscal?</summary><p>Pro y Full.</p></details><details><summary>¿Liquidación de sueldos?</summary><p>Según tope del plan.</p></details></section>'}
-  function web(){meta('Programación Web Simple — LINZI','One‑Page, Landing Pro o Mini‑Sitio.','https://linzi.demo/servicios/programacion-web-simple');navActive('/servicios');setFloatWA();
-    addLD({"@context":"https://schema.org","@type":"Service","name":"Programación Web Simple","provider":{"@type":"Organization","name":"LINZI"}},'ld-svc');
-    return '<section class="hero inner"><h1>Webs rápidas y mantenibles</h1><p>Semántica, performance y SEO on‑page.</p><div class="stk"><button class="btn" data-contratar data-s="Web Simple" data-p="Pro">Contratar</button><a class="btn o" data-nav href="#/extras">Ver extras</a></div></section><section><h2>Qué incluye</h2><ul><li>Arquitectura estática</li><li>HTML AA y mobile‑first</li><li>SEO on‑page y analytics básico</li><li>Deploy simple</li></ul></section><section id="planes"><h2>Planes (precios de prueba)</h2>'+table({head:['Plan','Básico','Pro','Full'],body:[['Precio','Desde ARS$ 100.000','Desde ARS$ 180.000','Desde ARS$ 280.000'],['Tipo','One‑Page','Landing Pro','Mini‑Sitio'],['SEO','On‑page básico','On‑page+OG','On‑page+OG+Schema']]},2)+'<div class="stk"><button class="btn" data-contratar data-s="Web Simple" data-p="Básico">Básico</button><button class="btn" data-contratar data-s="Web Simple" data-p="Pro">Pro</button><button class="btn" data-contratar data-s="Web Simple" data-p="Full">Full</button></div><p class="muted">Precios de <strong>prueba</strong>, pueden cambiar sin previo aviso.</p></section><section><h2>FAQs</h2><details><summary>¿Puedo editar?</summary><p>Sí.</p></details><details><summary>¿Hosting?</summary><p>El que prefieras.</p></details><details><summary>¿Dominio y SSL?</summary><p>Como extra.</p></details><details><summary>¿Tiempo?</summary><p>Depende del plan.</p></details></section>'}
-  function extras(){meta('Extras — LINZI','Lista de extras y lista de espera.','https://linzi.demo/extras');navActive('/extras');setFloatWA();
-    var items=[
-      {slug:'seo',t:'SEO',bul:['Auditoría on‑page','Palabras clave','Plan de mejoras'],st:'Investigación',eta:'Q4/2025'},
-      {slug:'google-ads',t:'Google Ads',bul:['Set up','Conversiones','Optimización'],st:'En desarrollo',eta:'Q1/2026'},
-      {slug:'social-ads',t:'Social Ads',bul:['Meta/TikTok','Públicos','Creatividades'],st:'En desarrollo',eta:'Q2/2026'},
-      {slug:'email',t:'Email',bul:['Plantillas','Automatizaciones','Listas'],st:'Beta',eta:'Q1/2026'},
-      {slug:'automatizaciones',t:'Automatizaciones',bul:['Zaps/Make','Webhooks','Validaciones'],st:'Investigación',eta:'Q1/2026'},
-      {slug:'bots',t:'Bots',bul:['Atención','FAQ','Captura de leads'],st:'Investigación',eta:'Q2/2026'},
-      {slug:'integraciones',t:'Integraciones',bul:['ERP/CRM','Sheets','API básicas'],st:'Investigación',eta:'Q4/2025'},
-      {slug:'foto-video',t:'Foto/Video',bul:['Cobertura básica','Edición ligera','Entrega web'],st:'Planeado',eta:'Q4/2025'},
-      {slug:'branding',t:'Branding',bul:['Naming','Manual básico','Aplicaciones'],st:'Planeado',eta:'Q1/2026'},
-      {slug:'hosting',t:'Hosting',bul:['Static','CDN','Backups'],st:'Planeado',eta:'Q4/2025'},
-      {slug:'dominio-ssl',t:'Dominio/SSL',bul:['Gestión de DNS','Compra dominio','SSL'],st:'Planeado',eta:'Q4/2025'},
-      {slug:'analytics-avanzado',t:'Analytics avanzado',bul:['Eventos','Dashboards','Embudos'],st:'Investigación',eta:'Q4/2025'}
-    ];
-    var search='<div class="stk"><input id="fext" type="search" placeholder="Filtrar extras" aria-label="Filtrar extras" style="flex:1;min-width:240px;padding:12px;border:1px solid var(--bd);border-radius:10px"/></div>';
-    var list='<div class="grid c3">'+items.map(function(x){return '<article class="card"><h3>'+x.t+'</h3><ul style="margin:0 0 12px 18px">'+x.bul.map(function(b){return '<li>'+b+'</li>'}).join('')+'</ul><p class="muted">Estado: <strong>'+x.st+'</strong> · ETA: <strong>'+x.eta+'</strong></p><button class="btn s" data-waitlist data-interes="'+x.slug+'">Avisame cuando esté</button></article>'}).join('')+'</div>';
-    return '<h1>Extras</h1>'+search+list}
-  function extra(p){var t=p.replace(/-/g,' ');meta(t.charAt(0).toUpperCase()+t.slice(1)+' — LINZI','Página de interés (Próximamente).','https://linzi.demo/extras/'+p);navActive('/extras');setFloatWA();return '<h1>'+t.toUpperCase()+' — Próximamente</h1><p>Dejanos tus datos y te avisamos cuando esté activo.</p><form class="form" data-simulate="true"><div class="fld"><label for="n">Nombre</label><input id="n" name="nombre" required/></div><div class="fld"><label for="e">Email</label><input id="e" name="email" type="email" required/></div><div class="fld"><label for="m">Mensaje</label><textarea id="m" name="mensaje" rows="4"></textarea></div><div class="fld cb"><input id="c" type="checkbox" required/><label for="c">Acepto privacidad</label></div><button class="btn" type="submit">Enviar</button></form>'}
-  function contacto(){meta('Contacto — LINZI','Formulario de contacto (simulado). Respondemos en 24h hábiles.','https://linzi.demo/contacto');navActive('/contacto');setFloatWA();var pref=sessionStorage.getItem('pref')||'';return '<h1>Contacto</h1><p><strong>Respondemos en 24 h hábiles</strong>. Completá el formulario. El envío es simulado.</p><form class="form" data-simulate="true" aria-describedby="fh"><div class="fld"><label for="nn">Nombre</label><input id="nn" name="nombre" required/></div><div class="fld"><label for="ee">Email</label><input id="ee" name="email" type="email" required/></div><div class="fld"><label for="ww">WhatsApp</label><input id="ww" name="whatsapp" type="tel" inputmode="tel" placeholder="+54 9 11 1234 5678"/></div><div class="fld"><label for="mm">Mensaje</label><textarea id="mm" name="mensaje" rows="5" required>'+pref+'</textarea></div><div class="fld cb"><input id="cs" name="consent" type="checkbox" required/><label for="cs">Acepto la política de privacidad</label></div><p id="fh" class="muted">No se envía nada: simulación.</p><div class="stk"><button class="btn" type="submit" id="sendBtn">Enviar</button><a class="btn g" id="walt" target="_blank" rel="noopener">Escribime por WhatsApp</a></div></form>'}
-  function legal(){meta('Legal — LINZI','Términos, Privacidad y Cookies (AR Ley 25.326).','https://linzi.demo/legal');navActive('/legal');setFloatWA();return '<h1>Legal</h1><h2>Privacidad</h2><p>Tratamos datos para responder consultas y ofrecer servicios. Base legal: consentimiento. Datos: nombre, email, WhatsApp, mensaje. Conservación: 12 meses. Derechos ARCO: acceso, rectificación, actualización y supresión. Contacto: hola@linzi.demo.</p><h2>Cookies</h2><p>Esenciales y analíticas. Podés deshabilitarlas desde tu navegador.</p><h2>Términos</h2><p>Uso del sitio implica aceptación de estos términos.</p>'}
-  var routes={'/':home,'/servicios':serv,'/servicios/marketing':mk,'/servicios/secretaria-adm':sa,'/servicios/contabilidad':ctb,'/servicios/programacion-web-simple':web,'/extras':extras,'/contacto':contacto,'/legal':legal};
-  function render(){var h=location.hash.replace(/^#/,'')||'/';var parts=h.split('#');var p=parts[0],q=parts[1];if(p.indexOf('/extras/')===0 && p!=='/extras'){A.innerHTML=extra(p.split('/')[2]);bind();return}var f=routes[p]||home;A.innerHTML=f();if(q==='planes'){var el=document.getElementById('planes');if(el) el.scrollIntoView({behavior:'smooth'})}bind()}
-  function setInvalid(el,flag){el.setAttribute('aria-invalid',String(flag));if(flag) el.style.borderColor='var(--err)';else el.style.borderColor='var(--bd)'}
-  function validateEmail(v){return /.+@.+\..+/.test(v)}
-  function bind(){
-    // Simulación envío + validaciones + toasts
-    document.querySelectorAll('form[data-simulate="true"]').forEach(function(f){
-      f.onsubmit=function(e){e.preventDefault();var btn=f.querySelector('button[type="submit"]');if(btn){btn.disabled=true;btn.textContent='Enviando…'}var d=new FormData(f),o={};d.forEach(function(v,k){o[k]=v});
-        var ok=true;var email=f.querySelector('input[type="email"]');if(email){var ve=validateEmail(email.value);setInvalid(email,!ve);ok=ok&&ve}
-        var chk=f.querySelector('input[type="checkbox"][required]');if(chk){setInvalid(chk,!chk.checked);ok=ok&&chk.checked}
-        if(!ok){toast('Revisá los campos marcados',false);if(btn){btn.disabled=false;btn.textContent=btn.id==='wlSend'?'Avisarme':'Enviar'}return}
-        console.log('SIM',location.hash,o);setTimeout(function(){toast('¡Listo! Te escribimos en 24h.',true);track('Contacto',{via:location.hash});f.reset();sessionStorage.removeItem('pref');if(btn){btn.disabled=false;btn.textContent=btn.id==='wlSend'?'Avisarme':'Enviar'}if(f.id==='wlForm'){WL.classList.remove('open');WL.setAttribute('aria-hidden','true')}},650)
-      }
-    });
-    // CTA Contratar → Contacto + pref + WA con UTM
-    $$('[data-contratar]').forEach(function(b){b.onclick=function(){var s=b.getAttribute('data-s')||'Servicio',p=b.getAttribute('data-p')||'Plan';sessionStorage.setItem('pref','Quiero contratar '+s+' — Plan '+p+'.');track('Contratar',{s:s,p:p});go('/contacto')}})
-    // Ver planes tracking
-    $$('a[href$="#planes"]').forEach(function(a){a.onclick=function(){track('Ver planes',{from:location.hash})}}
-    )
-    // Extras waitlist (modal único)
-    $$('[data-waitlist]').forEach(function(x){x.onclick=function(){var slug=x.getAttribute('data-interes');$('#wlInteres').value=slug;WL.classList.add('open');WL.setAttribute('aria-hidden','false');track('Waitlist open',{slug:slug})}})
-    $('#wlClose')&&($('#wlClose').onclick=function(){WL.classList.remove('open');WL.setAttribute('aria-hidden','true')})
-    // Copiar/abrir WhatsApp desde Contacto con mensaje prellenado
-    var walt=$('#walt');if(walt){var pref=sessionStorage.getItem('pref')||'';var m=/contratar (.*) — Plan (.*)\./i.exec(pref);var s=m?m[1]:null,p=m?m[2]:null;walt.setAttribute('href',waLink(s,p));walt.onclick=function(){track('WhatsApp',{s:s||'N/A',p:p||'N/A'})}}
-    // Filtro extras
-    var fld=$('#fext'),elist=$('#elist');if(fld&&elist){fld.oninput=function(){var q=fld.value.toLowerCase();elist.querySelectorAll('li').forEach(function(li){li.style.display=li.textContent.toLowerCase().indexOf(q)>-1?'list-item':'none'})}}
-    // Scroll top en navegación
-    $$('nav a[data-nav]').forEach(function(a){a.onclick=function(){setTimeout(function(){window.scrollTo({top:0,behavior:'smooth'})},0)}})
-    // Flotante WA dinámico
-    setFloatWA();
-  }
-  window.addEventListener('hashchange',render,{passive:true});
-  render();
-  // LD base (LocalBusiness)
-  var ld=document.createElement('script');ld.type='application/ld+json';ld.text=JSON.stringify({"@context":"https://schema.org","@type":"LocalBusiness","name":"LINZI","url":"https://linzi.demo","email":"hola@linzi.demo","telephone":"+54 9 11 2233-4455","address":{"@type":"PostalAddress","streetAddress":"Av. Siempre Viva 742, CABA, Argentina"}});document.head.appendChild(ld);
-  // Plausible opcional
-  window.plausible=window.plausible||function(){(window.plausible.q=window.plausible.q||[]).push(arguments)};
-  var ps=document.createElement('script');ps.defer=true;ps.setAttribute('data-domain','linzi.demo');ps.src='https://plausible.io/js/script.js';document.head.appendChild(ps);
-})();
+<main>
+<section id="panel">
+<div id="log" role="log" aria-live="polite"></div>
+</section>
+<nav id="estado" aria-label="Estado"></nav>
+<form id="form"><label for="entrada">Comando</label><input id="entrada" maxlength="80" autocomplete="off"><button type="submit">Enviar</button></form>
+<footer>
+<button data-cmd="mirar">Mirar</button>
+<button data-cmd="inventario">Inventario</button>
+<button data-cmd="estado">Estado</button>
+<button data-cmd="misiones">Misiones</button>
+<button data-cmd="santuario">Santuario</button>
+<button data-cmd="guardar">Guardar</button>
+<button data-cmd="cargar">Cargar</button>
+<button id="temaBtn">Tema</button>
+<button data-cmd="ayuda">Ayuda</button>
+<button data-cmd="reset">Reset</button>
+</footer>
+</main>
+<script type="application/json" id="seed">{
+"salas":[
+{"id":"entrada","nombre":"Entrada Musgosa","desc":"Una puerta húmeda abre paso.","conexiones":{"este":"pasillo"},"enemigos":["rata"],"npcs":["anciano"],"items":["espada","pocion"]},
+{"id":"pasillo","nombre":"Pasillo de Susurros","desc":"Ecos extraños vibran.","conexiones":{"oeste":"entrada","este":"archivo","sur":"santuario"},"enemigos":["mimic"],"npcs":[],"items":["antidoto"]},
+{"id":"archivo","nombre":"Archivo Polvoriento","desc":"Estantes repletos de pergaminos.","conexiones":{"oeste":"pasillo"},"enemigos":["jefe"],"npcs":["monje"]},
+{"id":"santuario","nombre":"Nave del Santuario","desc":"Un altar ridículamente brillante.","conexiones":{"norte":"pasillo"},"npcs":["monje"],"tieneSantuario":true}
+],
+"objetos":[
+{"id":"pocion","nombre":"Poción Roja","tipo":"consumible","efectos":{"vida":20},"precio":10},
+{"id":"antidoto","nombre":"Antídoto","tipo":"consumible","efectos":{"estado":"veneno"},"precio":5},
+{"id":"espada","nombre":"Espada Oxidada","tipo":"equipable","slot":"arma","efectos":{"atq":2},"precio":15},
+{"id":"armadura","nombre":"Armadura de Cuero","tipo":"equipable","slot":"armadura","efectos":{"def":1},"precio":20},
+{"id":"amu","nombre":"Amuleto Soso","tipo":"equipable","slot":"accesorio","efectos":{"manaMax":5},"precio":12},
+{"id":"hongo","nombre":"Hongo Brillante","tipo":"clave","efectos":{},"precio":1}
+],
+"enemigos":[
+{"id":"rata","nombre":"Rata Valiente","nivel":1,"vida":8,"atq":3,"def":0,"botin":{"oro":3,"drop":["hongo"]}},
+{"id":"mimic","nombre":"Mimic Bromista","nivel":2,"vida":12,"atq":4,"def":1,"botin":{"oro":8}},
+{"id":"fuego","nombre":"Esfera Ígnea","nivel":2,"vida":10,"atq":5,"def":0,"botin":{"oro":6}},
+{"id":"esqueleto","nombre":"Esqueleto Perezoso","nivel":1,"vida":9,"atq":3,"def":1,"botin":{"oro":4}},
+{"id":"jefe","nombre":"Bibliotecario Cósmico","nivel":3,"vida":20,"atq":6,"def":2,"botin":{"oro":20,"drop":["espada"]},"esJefe":true}
+],
+"npcs":[
+{"id":"anciano","nombre":"Anciano Olvidadizo","lineas":["Busca hongos para mi sopa.","Dicen que un cofre cobra vida al este."]},
+{"id":"monje","nombre":"Monje Somnoliento","lineas":["El santuario cura, pero cobra caro.","Si no tienes oro, limpia los bancos."]}
+],
+"misiones":[
+{"id":"m_hongos","tipo":"recolectar","objetivo":{"objeto":"hongo","cantidad":5},"progreso":{"actual":0},"recompensa":{"xp":10,"oro":5},"desc":"Recolecta 5 hongos brillantes."},
+{"id":"m_mimic","tipo":"derrotar","objetivo":{"enemigo":"mimic","cantidad":1},"progreso":{"actual":0},"recompensa":{"xp":20,"oro":10},"desc":"Derrota al Mimic Bromista."},
+{"id":"m_sant","tipo":"visitar","objetivo":{"sala":"santuario"},"progreso":{"visitado":false},"recompensa":{"xp":5,"oro":2},"desc":"Visita la Nave del Santuario."}
+],
+"santuario":{"precios":{"veneno":5,"quemadura":7,"aturdido":4,"sangrado":6},"descuento":0.2}
+}
 </script>
-</body></html>
+<script type="module">
+"use strict";
+// ==== Utils ====
+const Utils=(()=>{const randInt=(a,b)=>Math.floor(Math.random()*(b-a+1))+a;const clamp=(n,a,b)=>Math.max(a,Math.min(b,n));const pick=a=>a[randInt(0,a.length-1)];const slug=s=>s.toLowerCase().normalize("NFD").replace(/[^a-z0-9]+/g,"");return{randInt,clamp,pick,slug};})();
+// ==== RNG ====
+const RNG=(()=>{let s=Date.now()%2147483647;function seed(n){s=n%2147483647;}function next(){return s=(s*16807)%2147483647;}function random(){return(next()-1)/2147483646;}return{seed,random,randInt:(a,b)=>Math.floor(random()*(b-a+1))+a};})();
+// ==== UI ====
+const UI=(()=>{const logEl=document.getElementById('log');const estadoEl=document.getElementById('estado');function log(t){const d=document.createElement('div');d.textContent=t;logEl.appendChild(d);logEl.scrollTop=logEl.scrollHeight;}function renderEstado(j,loc){estadoEl.innerHTML=`<span>❤️ ${j.vida}/${j.vidaMax}</span><span>🔮 ${j.mana}/${j.manaMax}</span><span>Lvl ${j.nivel}</span><span>💰 ${j.oro}</span><span>${loc.nombre}</span><span>${j.estados.map(e=>e.icono).join(' ')}</span>`;}function modal(text,mode){const dlg=document.createElement('dialog');dlg.innerHTML=`<form method="dialog" style="display:flex;flex-direction:column;gap:.5rem"><textarea style="width:60ch;height:10rem">${text||""}</textarea><div><button value="ok">OK</button></div></form>`;document.body.appendChild(dlg);dlg.showModal();dlg.addEventListener('close',()=>{if(mode==='importar'){Storage.importar(dlg.querySelector('textarea').value);}dlg.remove();});}return{log,renderEstado,modal};})();
+// ==== Storage ====
+const Storage=(()=>{const KEY='rpg_texto_save_v1';function save(state){localStorage.setItem(KEY,JSON.stringify(state));UI.log('Partida guardada.');}function load(){const raw=localStorage.getItem(KEY);if(!raw){UI.log('No hay partida.');return null;}try{return JSON.parse(raw);}catch(e){UI.log('Datos corruptos.');return null;}}function exportar(){const raw=localStorage.getItem(KEY)||'{}';UI.modal(raw);}function importar(json){try{const data=JSON.parse(json);if(data && data.jugador){localStorage.setItem(KEY,json);UI.log('Partida importada.');}else UI.log('JSON inválido.');}catch(e){UI.log('JSON inválido.');}}return{save,load,exportar,importar};})();
+// ==== Datos ====
+const Datos=JSON.parse(document.getElementById('seed').textContent);
+// ==== Estado inicial ====
+let state={jugador:{nombre:'',nivel:1,xp:0,vida:20,vidaMax:20,mana:10,manaMax:10,oro:5,atq:3,def:1,estados:[],equipo:{arma:null,armadura:null,accesorio:null},inventario:[]},ubicacion:'entrada',mundo:{salas:{},enemigos:{}},misiones:{},config:{tema:'auto',velocidad:1,verboso:true}};
+// cargar mundo desde seed
+Datos.salas.forEach(s=>{state.mundo.salas[s.id]=Object.assign({},s,{items:[...(s.items||[])],enemigos:[...s.enemigos]});});Datos.enemigos.forEach(e=>{state.mundo.enemigos[e.id]=Object.assign({},e);});Datos.misiones.forEach(m=>{state.misiones[m.id]=JSON.parse(JSON.stringify(m));});
+// ==== Tema ====
+const root=document.documentElement;function aplicarTema(){const t=state.config.tema;if(t==='auto')root.removeAttribute('data-tema');else root.setAttribute('data-tema',t);}document.getElementById('temaBtn').onclick=()=>{const orden=['auto','claro','oscuro'];const i=orden.indexOf(state.config.tema);state.config.tema=orden[(i+1)%orden.length];aplicarTema();};aplicarTema();
+// ==== Utilidades jugador ====
+function nivelUp(){state.jugador.nivel++;state.jugador.vidaMax+=5;state.jugador.manaMax+=3;state.jugador.atq++;state.jugador.def++;UI.log('Subes a nivel '+state.jugador.nivel+'. Te sientes ligeramente menos inepto.');}
+function ganarXP(x){state.jugador.xp+=x;UI.log('Ganas '+x+' xp.');if(state.jugador.xp>=state.jugador.nivel*20){state.jugador.xp=0;nivelUp();}}
+function curarTodo(){state.jugador.vida=state.jugador.vidaMax;state.jugador.mana=state.jugador.manaMax;state.jugador.estados=[];}
+// ==== Misiones ====
+function progMision(tipo,id){const m=state.misiones[id];if(!m) return;if(m.tipo==='recolectar'){m.progreso.actual++;if(m.progreso.actual>=m.objetivo.cantidad){completarMision(m);}}if(m.tipo==='derrotar'){m.progreso.actual++;if(m.progreso.actual>=m.objetivo.cantidad){completarMision(m);}}if(m.tipo==='visitar'){m.progreso.visitado=true;completarMision(m);}}
+function completarMision(m){if(m.completada)return; m.completada=true;UI.log('Misión completada: '+m.desc);state.jugador.oro+=m.recompensa.oro;ganarXP(m.recompensa.xp);if(m.recompensa.objeto)state.jugador.inventario.push(m.recompensa.objeto);}
+// ==== Inventario ====
+function obtenerItem(id){return Datos.objetos.find(o=>o.id===id);}function equipar(id){const it=obtenerItem(id);if(!it||it.tipo!=='equipable'){UI.log('No puedes equipar eso.');return;}const slot=it.slot;const actual=state.jugador.equipo[slot];if(actual)state.jugador.inventario.push(actual);state.jugador.equipo[slot]=id;state.jugador.inventario=state.jugador.inventario.filter(i=>i!==id);aplicarStats();UI.log('Equipas '+it.nombre+'.');}
+function desequipar(slot){const id=state.jugador.equipo[slot];if(!id){UI.log('No llevas nada en '+slot);return;}state.jugador.inventario.push(id);state.jugador.equipo[slot]=null;aplicarStats();UI.log('Desequipas '+obtenerItem(id).nombre+'.');}
+function aplicarStats(){state.jugador.atq=3;state.jugador.def=1;state.jugador.manaMax=10;['arma','armadura','accesorio'].forEach(s=>{const id=state.jugador.equipo[s];if(id){const it=obtenerItem(id);if(it.efectos.atq)state.jugador.atq+=it.efectos.atq;if(it.efectos.def)state.jugador.def+=it.efectos.def;if(it.efectos.manaMax)state.jugador.manaMax+=it.efectos.manaMax;}});}
+// ==== Mundo ====
+function salaActual(){return state.mundo.salas[state.ubicacion];}
+function mover(dir){const sala=salaActual();const dest=sala.conexiones[dir];if(dest){state.ubicacion=dest;UI.log('Vas hacia '+dir+'.');visitarSala();}else UI.log('No hay camino al '+dir+'.');}
+function visitarSala(){const sala=salaActual();UI.log(sala.nombre+': '+sala.desc);if(sala.enemigos.length)UI.log('Enemigos: '+sala.enemigos.map(id=>state.mundo.enemigos[id].nombre).join(', '));if(sala.npcs)UI.log('Habitantes: '+sala.npcs.map(id=>Datos.npcs.find(n=>n.id===id).nombre).join(', '));if(sala.tieneSantuario)UI.log('Aquí hay un santuario resplandeciente.');if(state.misiones['m_sant']&&sala.id==='santuario')progMision('visitar','m_sant');render();}
+// ==== Combate ====
+let combate=null;const estadoIconos={veneno:'☠',quemadura:'🔥',aturdido:'✖',sangrado:'🩸'};function iniciarCombate(id){const sala=salaActual();if(!sala.enemigos.includes(id)){UI.log('No ves eso aquí.');return;}const enemigo=Object.assign({estados:[]},state.mundo.enemigos[id]);combate={enemigo};UI.log('¡'+enemigo.nombre+' aparece!');if(enemigo.esJefe){presentacionJefe(enemigo);}turnoJugador();}
+function presentacionJefe(en){const plant=[`${en.nombre} se materializa burlándose de tu peinado, ${state.jugador.nombre}.`,`${en.nombre} aplaude irónicamente tu arma ${equipoNombre('arma')}.`,`Desde el ${salaActual().nombre}, ${en.nombre} critica tus estadísticas promedio.`,`${en.nombre} te compara con una calculadora rota, ${state.jugador.nombre}.`,`El universo suspira al ver tu ${equipoNombre('arma')}, dice ${en.nombre}.`,`${en.nombre} pregunta si entrenaste en un tutorial de cocina.`];UI.log(Utils.pick(plant));}
+function equipoNombre(slot){const id=state.jugador.equipo[slot];return id?obtenerItem(id).nombre:'puños';}
+function turnoJugador(){UI.log('Tu turno.');}
+function procesarEstados(obj){
+  let at=false;const out=[];
+  obj.estados=obj.estados.filter(e=>{
+    e.turnos--;
+    if(e.tipo==='veneno'){obj.vida-=2;out.push('Veneno daña 2.');}
+    if(e.tipo==='quemadura'){obj.vida-=2;out.push('Quemadura arde 2.');}
+    if(e.tipo==='sangrado'){e.pot=(e.pot||1);obj.vida-=e.pot;out.push('Sangrado '+e.pot);e.pot++;}
+    if(e.tipo==='aturdido'){at=true;}
+    return e.turnos>0;
+  });
+  return {texto:out.join(' '),aturdido:at};
+}
+function aplicarEstado(obj,tipo,turnos){obj.estados.push({tipo,turnos,icono:estadoIconos[tipo]});}
+function ataque(atk,def){let dmg=atk.atq+RNG.randInt(-2,2)-def.def;dmg=dmg<1?1:dmg;const crit=RNG.randInt(1,10)===1;if(crit)dmg=Math.floor(dmg*1.5);def.vida-=dmg;return{dmg,crit};}
+function enemigoVivo(){return combate&&combate.enemigo.vida>0;}
+function resolverTurno(){
+  if(!combate)return;
+  const e=combate.enemigo;
+  const p=state.jugador;
+  const pj=procesarEstados(p);
+  if(p.vida<=0){UI.log('Has caído. Fin.');combate=null;return;}
+  const ee=procesarEstados(e);
+  if(e.vida<=0){UI.log('Enemigo derrotado.');finCombate();return;}
+  if(ee.aturdido){
+    UI.log('El enemigo está aturdido.');
+  }else{
+    const res=ataque(e,p);
+    if(e.id==='rata'&&RNG.randInt(1,3)===1)aplicarEstado(p,'veneno',3);
+    if(e.id==='fuego'&&RNG.randInt(1,3)===1)aplicarEstado(p,'quemadura',2);
+    if(e.id==='esqueleto'&&RNG.randInt(1,3)===1)aplicarEstado(p,'sangrado',3);
+    UI.log(`${e.nombre} golpea por ${res.dmg}`+(res.crit?' ¡Crítico!':''));
+    if(p.vida<=0){UI.log('Has sido derrotado. Fin.');combate=null;return;}
+  }
+  const txt=[pj.texto,ee.texto].filter(Boolean).join(' ');
+  if(txt)UI.log(txt);
+}
+function finCombate(){const e=combate.enemigo;const sala=salaActual();sala.enemigos=sala.enemigos.filter(i=>i!==e.id);state.jugador.oro+=e.botin.oro;UI.log(`Obtienes ${e.botin.oro} oro.`);if(e.botin.drop){e.botin.drop.forEach(id=>{sala.items.push(id);UI.log('Cae '+obtenerItem(id).nombre);});}if(e.esJefe)UI.log('El jefe cae soltando un suspiro sarcástico.');ganarXP(e.nivel*10);if(e.id=="mimic")progMision("derrotar","m_mimic");combate=null;}
+function comandoAtacar(arg){if(combate){const e=combate.enemigo;const res=ataque(state.jugador,e);UI.log(`Atacas a ${e.nombre} por ${res.dmg}`+(res.crit?' ¡Crítico!':''));if(e.vida<=0){UI.log('Enemigo derrotado.');finCombate();}else{resolverTurno();}return;}else iniciarCombate(arg);}
+function comandoHabilidad(arg){
+  if(!combate){UI.log('No estás en combate.');return;}
+  const p=state.jugador,e=combate.enemigo;
+  if(arg==='golpe'){
+    if(p.mana<2){UI.log('Sin mana.');return;}
+    p.mana-=2;
+    const res=ataque({atq:p.atq+2},e);
+    UI.log(`Golpe Firme hace ${res.dmg}`);
+    if(e.vida<=0){finCombate();return;}
+  }else if(arg==='guardia'){
+    if(p.mana<3){UI.log('Sin mana.');return;}
+    p.mana-=3;
+    aplicarEstado(e,'aturdido',1);
+    UI.log('Guardia Mística aturde al enemigo.');
+  }else{
+    UI.log('Habilidad desconocida.');return;
+  }
+  resolverTurno();
+}
+function comandoHuir(){if(!combate){UI.log('No hay peligro de qué huir.');return;}if(RNG.randInt(0,1)){UI.log('Escapas.');combate=null;}else{UI.log('Fallas al huir.');resolverTurno();}}
+// ==== Santuario ====
+function comandoSantuario(arg){const sala=salaActual();if(!sala.tieneSantuario){UI.log('No hay santuario aquí.');return;}if(!arg){if(!state.jugador.estados.length){UI.log('El santuario bosteza: no tienes nada que curar.');return;}UI.log('Estados: '+state.jugador.estados.map(e=>e.tipo).join(', ')+'. Usa "santuario curar <estado|todo>"');return;}const partes=arg.split(' ');if(partes[0]!=='curar'){UI.log('Sintaxis: santuario curar <estado|todo>');return;}const objetivo=partes[1];const precios=Datos.santuario.precios;if(objetivo==='todo'){const costo=state.jugador.estados.reduce((s,e)=>s+precios[e.tipo],0);const total=Math.floor(costo*(1-Datos.santuario.descuento));if(state.jugador.oro>=total){state.jugador.oro-=total;curarTodo();UI.log('El santuario te rocía agua con sabor a burocracia. Te curas.');}else{UI.log('Te falta oro. Escribe "limpiar" para fregar bancos por monedas.');}}else{const st=state.jugador.estados.find(e=>e.tipo===objetivo);if(!st){UI.log('No tienes ese estado.');return;}const precio=precios[objetivo];if(state.jugador.oro>=precio){state.jugador.oro-=precio;state.jugador.estados=state.jugador.estados.filter(e=>e.tipo!==objetivo);UI.log('El santuario te cura con un spray ridículamente caro.');}else UI.log('Te falta oro. Escribe "limpiar" para fregar bancos por monedas.');}}
+function comandoLimpiar(){const sala=salaActual();if(!sala.tieneSantuario){UI.log('No hay nada que limpiar.');return;}state.jugador.oro+=2;UI.log('Limpias bancos pegajosos. Obtienes 2 oro.');}
+// ==== Comandos ====
+const comandos=new Map();function registrar(v,fn,ay){comandos.set(v,{fn,ay});}
+function alias(v){return{m:'mirar',i:'inventario',e:'estado',g:'guardar'}[v]||v;}
+function procesar(str){str=str.trim().toLowerCase();if(!str)return;const [verbo,...rest]=str.split(' ');const v=alias(verbo);const arg=rest.join(' ');const cmd=comandos.get(v);if(cmd){cmd.fn(arg);}else UI.log('Comando desconocido.');render();}
+// ==== Registro de comandos ====
+registrar('ayuda',()=>{UI.log('Comandos: '+Array.from(comandos.keys()).join(', '));});
+registrar('mirar',arg=>{if(arg){UI.log('No ves eso con detalle.');return;}visitarSala();});
+registrar('ir',dir=>{mover(dir);});
+registrar('hablar',id=>{const sala=salaActual();if(!sala.npcs||!sala.npcs.includes(id)){UI.log('No hay con quién.');return;}const npc=Datos.npcs.find(n=>n.id===id);UI.log(Utils.pick(npc.lineas));});
+registrar('tomar',id=>{const sala=salaActual();const idx=sala.items.indexOf(id);if(idx===-1){UI.log('No ves eso.');return;}state.jugador.inventario.push(id);sala.items.splice(idx,1);UI.log('Tomas '+obtenerItem(id).nombre);if(id==='hongo')progMision('recolectar','m_hongos');});
+registrar('soltar',id=>{const idx=state.jugador.inventario.indexOf(id);if(idx===-1){UI.log('No lo tienes.');return;}state.jugador.inventario.splice(idx,1);salaActual().items.push(id);UI.log('Suelto '+obtenerItem(id).nombre);});
+registrar('inventario',()=>{UI.log('Inventario: '+state.jugador.inventario.map(id=>obtenerItem(id).nombre).join(', ')||'vacío');});
+registrar('usar',id=>{const idx=state.jugador.inventario.indexOf(id);if(idx===-1){UI.log('No lo tienes.');return;}const it=obtenerItem(id);if(it.tipo!=='consumible'){UI.log('No es consumible.');return;}if(it.efectos.vida){state.jugador.vida=Utils.clamp(state.jugador.vida+it.efectos.vida,0,state.jugador.vidaMax);}if(it.efectos.estado){state.jugador.estados=state.jugador.estados.filter(e=>e.tipo!==it.efectos.estado);}state.jugador.inventario.splice(idx,1);UI.log('Usas '+it.nombre);});
+registrar('equipar',equipar);registrar('desequipar',desequipar);
+registrar('estado',()=>{const j=state.jugador;UI.log(`Vida ${j.vida}/${j.vidaMax}, Mana ${j.mana}/${j.manaMax}, Atq ${j.atq}, Def ${j.def}`);UI.log('Equipo: '+Object.entries(j.equipo).map(([s,id])=>`${s}:${id?obtenerItem(id).nombre:'--'}`).join(' '));UI.log('Estados: '+(j.estados.map(e=>e.tipo).join(', ')||'ninguno'));});
+registrar('atacar',comandoAtacar);
+registrar('habilidad',comandoHabilidad);
+registrar('huir',comandoHuir);
+registrar('misiones',()=>{Object.values(state.misiones).forEach(m=>{if(m.tipo==='recolectar')UI.log(`${m.desc} (${m.progreso.actual}/${m.objetivo.cantidad})`);else if(m.tipo==='derrotar')UI.log(`${m.desc} (${m.progreso.actual}/${m.objetivo.cantidad})`);else UI.log(`${m.desc} (${m.progreso.visitado?1:0}/1)`);});});
+registrar('santuario',comandoSantuario);registrar('limpiar',comandoLimpiar);
+registrar('guardar',()=>Storage.save(state));
+registrar('cargar',()=>{const data=Storage.load();if(data){state=data;aplicarTema();render();UI.log('Partida cargada.');}});
+registrar('exportar',()=>Storage.exportar());
+registrar('importar',()=>UI.modal('', 'importar'));
+registrar('config',str=>{const [p,v]=str.split(' ');if(p==='tema'){state.config.tema=v;aplicarTema();}UI.log('Config actualizada.');});
+registrar('salir',()=>{UI.log('Recuerda guardar antes de cerrar.');});
+registrar('reset',()=>{localStorage.clear();location.reload();});
+// ==== Render ====
+function render(){UI.renderEstado(state.jugador,salaActual());}
+// ==== Entrada ====
+const form=document.getElementById('form');const inp=document.getElementById('entrada');form.onsubmit=e=>{e.preventDefault();procesar(inp.value);inp.value='';};document.addEventListener('keydown',e=>{if(e.key==='/' && document.activeElement!==inp){e.preventDefault();inp.focus();}if(e.key==='Escape'){inp.value='';}if(e.key==='Tab'){const pref=inp.value.trim();const opts=Array.from(comandos.keys()).filter(c=>c.startsWith(pref));if(opts.length===1){e.preventDefault();inp.value=opts[0]+' ';}}});document.querySelectorAll('[data-cmd]').forEach(b=>b.onclick=()=>{procesar(b.getAttribute('data-cmd'));});
+// ==== Inicio ====
+function bootstrap(){const save=Storage.load();if(save){state=save;aplicarTema();UI.log('Partida cargada.');}if(!state.jugador.nombre){state.jugador.nombre=prompt('¿Nombre?')||'Anónimo';UI.log('Bienvenido '+state.jugador.nombre+'. Escribe ayuda, mirar, estado, misiones.');}visitarSala();render();}
+bootstrap();
+</script>
+</body>
+</html>
